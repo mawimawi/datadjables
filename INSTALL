@@ -1,0 +1,4 @@
+$ cd docs
+$ make html
+
+Then open your browser and go to ./_build/index.html

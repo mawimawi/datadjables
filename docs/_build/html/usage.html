@@ -1,0 +1,178 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Usage overview &mdash; DataDjables 1.1.0 alpha documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1.0 alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="DataDjables 1.1.0 alpha documentation" href="index.html" />
+    <link rel="next" title="Creating and Customizing a DataDjable" href="custom_datatable.html" />
+    <link rel="prev" title="Give it a try!" href="tryout.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="custom_datatable.html" title="Creating and Customizing a DataDjable"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tryout.html" title="Give it a try!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">DataDjables 1.1.0 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="usage-overview">
+<h1>Usage overview<a class="headerlink" href="#usage-overview" title="Permalink to this headline">¶</a></h1>
+<p>THIS SECTION IS OUTDATED</p>
+<p>Suppose we have three models: <tt class="docutils literal"><span class="pre">Person</span></tt>, <tt class="docutils literal"><span class="pre">Product</span></tt> and <tt class="docutils literal"><span class="pre">Purchase</span></tt>. A person buys some product for a price that may be different from the <tt class="docutils literal"><span class="pre">standard_price</span></tt> stored in the <tt class="docutils literal"><span class="pre">Product</span></tt> model. This price is stored in a <tt class="docutils literal"><span class="pre">Purchase</span></tt> object which also contains the timestamp of the sale. This setup is identical to the <tt class="docutils literal"><span class="pre">dt_testing</span></tt> app inside the <tt class="docutils literal"><span class="pre">datatables</span></tt> django app.</p>
+<p>The heart of every DataTable is a queryset like <tt class="docutils literal"><span class="pre">Product.objects.all()</span></tt>. Of course this base_query can be something more complicated like <tt class="docutils literal"><span class="pre">Product.objects.all().select_related().annotate(avg_price=Avg('purchase__price'))</span></tt>.</p>
+<p>The data being displayed in your browser can hold any information that your queryset offers. An example would be:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">DtProducts</span><span class="p">(</span><span class="n">DataTable</span><span class="p">):</span>
+    <span class="n">standard_price</span> <span class="o">=</span> <span class="n">DecimalColumn</span><span class="p">(</span>
+        <span class="n">coltitle</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Std. price&#39;</span><span class="p">),</span>
+        <span class="n">coltitle_plural</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Std. prices&quot;</span><span class="p">),</span>
+        <span class="n">renderer</span><span class="o">=</span><span class="n">Template</span><span class="p">(</span><span class="s">&#39;{{ obj.standard_price|floatformat:2 }}&#39;</span><span class="p">),)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">StringColumn</span><span class="p">(</span><span class="n">coltitle</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Name&#39;</span><span class="p">),</span> <span class="n">coltitle_plural</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Names&quot;</span><span class="p">))</span>
+    <span class="n">avg_price</span> <span class="o">=</span> <span class="n">DecimalColumn</span><span class="p">(</span>
+        <span class="n">coltitle</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Avg. price&#39;</span><span class="p">),</span>
+        <span class="n">coltitle_plural</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Avg. prices&#39;</span><span class="p">),</span>
+        <span class="n">renderer</span><span class="o">=</span><span class="n">Template</span><span class="p">(</span><span class="s">&#39;{{ obj.avg_price|floatformat:2 }}&#39;</span><span class="p">),</span>
+        <span class="n">sortable</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">searchable</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">base_query</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">avg_price</span><span class="o">=</span><span class="n">Avg</span><span class="p">(</span><span class="s">&#39;purchase__price&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This specific datatable consists of three columns <tt class="docutils literal"><span class="pre">standard_price</span></tt>, <tt class="docutils literal"><span class="pre">name</span></tt> and <tt class="docutils literal"><span class="pre">avg_price</span></tt> (which the queryset creates using the <tt class="docutils literal"><span class="pre">annotate</span></tt> method).</p>
+<p>For viewing your datatable in a browser you first two views:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">product_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">TemplateResponse</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;dt_testing/product_list.html&#39;</span><span class="p">,</span>
+                            <span class="p">{</span><span class="s">&#39;dtobj&#39;</span><span class="p">:</span> <span class="n">DtProducts</span><span class="p">()})</span>
+</pre></div>
+</div>
+<p>This is a view that shows a html page with the required JavaScript code and a &lt;table&gt; which contains information to render the datatable in the browser:</p>
+<div class="highlight-python"><pre>{% load datatables %}&lt;html&gt;
+    &lt;head&gt;
+        &lt;script type="text/javascript" src="/static/datatables/js/jquery.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="/static/datatables/js/jquery.dataTables.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="/static/datatables/js/django_datatables.js"&gt;&lt;/script&gt;
+        &lt;link rel="stylesheet" href="/static/datatables/css/jquery.dataTables.css"&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Products&lt;/h1&gt;
+        {% table_init dtobj %}
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<p>The template tag <tt class="docutils literal"><span class="pre">table_init</span></tt> renders something like:</p>
+<div class="highlight-python"><pre>&lt;table class="django-datatable" id="productstable" data-id="productstable"
+ data-columns='[{"bSearchable": false, "bSortable": true, "sType": "string"},
+                {"bSearchable": false, "bSortable": true, "sType": "string"},
+                {"bSearchable": true, "bSortable": true, "sType": "string"}]'
+ data-sorting='[[0, &amp;quot;asc&amp;quot;]]'
+ data-source='/dt_testing/products/data/'&gt;
+ &lt;thead&gt;
+     &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Std. price&lt;/th&gt;&lt;th&gt;Avg. price&lt;/th&gt;&lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;&lt;/tbody&gt;
+ &lt;tfoot&gt;&lt;tr&gt;
+   &lt;th&gt;&lt;input style="display:none"&gt;&amp;nbsp;&lt;/th&gt;
+   &lt;th&gt;&lt;input style="display:none"&gt;&amp;nbsp;&lt;/th&gt;
+   &lt;th&gt;&lt;input class="search_init" type="text" value="Search Avg. prices" name="search_avg_price"&gt;&lt;/th&gt;
+ &lt;/tr&gt;&lt;/tfoot&gt;
+&lt;/table&gt;</pre>
+</div>
+<p>You also need a second view which returns the data itself which will be inserted between <tt class="docutils literal"><span class="pre">&lt;tbody&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;/tbody&gt;</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">product_list_ajax</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">DtProducts</span><span class="p">()</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This view sends the first batch of records as json data to the browser, where jQuery DataTables renders it nicely into your table. Whenever the user scrolls further down, jQuery DataTables fetches the next batch.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tryout.html"
+                        title="previous chapter">Give it a try!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="custom_datatable.html"
+                        title="next chapter">Creating and Customizing a DataDjable</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usage.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="custom_datatable.html" title="Creating and Customizing a DataDjable"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tryout.html" title="Give it a try!"
+             >previous</a> |</li>
+        <li><a href="index.html">DataDjables 1.1.0 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Martin Winkler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

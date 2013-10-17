@@ -1,0 +1,6 @@
+0.5.2 initial build
+1.0.0 better ordering
+1.0.1 base_query ist configurable
+1.0.2 compatible with Django 1.5
+1.0.16 compatible with Django 1.6b1
+1.1 new name "datadjables" (since datatables, django-datatables etc.etc. where already used elsewhere)

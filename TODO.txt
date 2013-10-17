@@ -1,0 +1,8 @@
+* use jsi18n in static/datadjables/js/datadjables.js for
+  init_datatable -> dt_dict -> oLanguage
+
+* make datadjables.js -> calcDataTableHeight configurable 
+
+* What about two or more datatables on one html page?
+
+* Revive automated testing

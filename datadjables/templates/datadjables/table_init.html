@@ -1,0 +1,10 @@
+<table class="django-datadjable" id="{{ dt.html_id }}" data-id="{{ dt.html_id }}"
+ data-columns='{{ dt.js }}' data-sorting='{{ dt.get_ordering }}'
+ data-colfilter='{{ dt.columnfilter_init }}'>
+ <thead>
+     <tr>{{ dt.thead }}</tr>
+ </thead>
+ <tbody></tbody>
+ <tfoot><tr>{{ dt.thead }}</tr></tfoot>
+</table>
+

@@ -1,0 +1,14 @@
+
+# this is for django core
+Django>=1.5
+
+# testing stuff
+selenium==2.31.0
+coverage
+pytest
+ipython
+ipdb
+pudb
+
+# Documentation
+Sphinx

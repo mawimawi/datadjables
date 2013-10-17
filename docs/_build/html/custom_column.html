@@ -1,0 +1,118 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Customizing Columns &mdash; DataDjables 1.1.0 alpha documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1.0 alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="DataDjables 1.1.0 alpha documentation" href="index.html" />
+    <link rel="prev" title="Creating and Customizing a DataDjable" href="custom_datatable.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="custom_datatable.html" title="Creating and Customizing a DataDjable"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">DataDjables 1.1.0 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="customizing-columns">
+<h1>Customizing Columns<a class="headerlink" href="#customizing-columns" title="Permalink to this headline">¶</a></h1>
+<p>THIS SECTION IS OUTDATED</p>
+<p>There are three types of columns (derived from the jQuery plugin): StringColumn, DateColumn and DecimalColumn. Right now they don&#8217;t really differ from each other, but maybe in a next version.</p>
+<p>When initializing a Column object, you can specify these parameters:</p>
+<div class="highlight-python"><pre>myCol = StringColumn(coltitle=u'', coltitle_plural=None, searchable=False,
+              sortable=True, renderer=None,
+              lookup_fields=(), lookup_op='icontains'):</pre>
+</div>
+<ul class="simple">
+<li>coltitle: The title in the column header</li>
+<li>coltitle_plural: used for searchable columns to display &#8220;Search in XXX&#8221; inside the input widget.</li>
+<li>searchable: if True, then the input widget in the footer will be displayed to make this column searchable.</li>
+<li>sortable: if True, then the column can be sorted in ascending and descending order.</li>
+<li>lookup_fields: if not empty, then the fields in the queryset will be searched with the specified lookup_op operator.
+Useful if you have a &#8220;fullname&#8221; column for looking up the search string in firstname and lastname fields.</li>
+<li>lookup_op: operator to do lookups. Can be e.g. <tt class="docutils literal"><span class="pre">lte</span></tt>, <tt class="docutils literal"><span class="pre">startswith</span></tt> etc. See the field lookups in Djangos QuerySet reference.</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="custom_datatable.html"
+                        title="previous chapter">Creating and Customizing a DataDjable</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/custom_column.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="custom_datatable.html" title="Creating and Customizing a DataDjable"
+             >previous</a> |</li>
+        <li><a href="index.html">DataDjables 1.1.0 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Martin Winkler.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{% load datatables %}<html>
+    <head>
+        <script type="text/javascript" src="/static/datatables/js/jquery.js"></script>
+        <script type="text/javascript" src="/static/datatables/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="/static/datatables/js/django_datatables.js"></script>
+        <link rel="stylesheet" href="/static/datatables/css/jquery.dataTables.css">
+    </head>
+    <body>
+        <h1>Products</h1>
+        {% table_init dtobj %}
+    </body>
+</html>

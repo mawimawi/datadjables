@@ -1,0 +1,6 @@
+table.dataTable tfoot th span.filter_column input.number_range_filter {
+    width:4em;
+}
+table.dataTable tfoot th span.filter_column input.date_range_filter {
+    width:7em;
+}
