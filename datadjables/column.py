@@ -14,6 +14,7 @@ class _OrQ(Q):
 
 
 def _jsbool(prop):
+    """quick and dirty conversion of a value into a javascript boolean"""
     return prop and 'true' or 'false'
 
 
@@ -38,16 +39,13 @@ class BaseDTColumn(object):
         self.lookup_op = lookup_op and '__%s' % lookup_op or ''
         self.extra = extra or None
 
-    def thead(self):
-        return self.coltitle
-
     def _set_colname(self, colname):
         """Set the column name and - if necessary - renderer. This method
         is being used by MetaDataDjable when creating a new DataDjable class"""
         self.colname = colname
         self.renderer = self.renderer or simple(colname=colname)
 
-    def js(self):
+    def js_data_column(self):
         result = []
         if self.colwidth:
             result.append('"sWidth": "%s"' % self.colwidth)
@@ -58,6 +56,7 @@ class BaseDTColumn(object):
         return '{' + ', '.join(result) + '}'
 
     def dt_cell_content(self, obj):
+        """Returns the html content for current column of the current object"""
         if isinstance(self.renderer, Template):
             return self.renderer.render(Context({'obj': obj}))
         return self.renderer.format(obj=obj)  # must be a string or unicode
@@ -69,7 +68,7 @@ class BaseDTColumn(object):
         ])
         return queryset.filter(_OrQ(**kwargs))
 
-    def columnfilter(self):
+    def js_columnfilter_init(self):
         if self.searchable:
             return {'type': self.coltype}
         else:
@@ -79,7 +78,7 @@ class BaseDTColumn(object):
 class NumberRangeColumn(BaseDTColumn):
     coltype = 'number-range'
 
-    def columnfilter(self):
+    def js_columnfilter_init(self):
         return {'type': self.coltype}
 
     def filter(self, strg, queryset=None):
@@ -118,7 +117,7 @@ class DateColumn(BaseDTColumn):
 class DateRangeColumn(BaseDTColumn):
     coltype = 'date-range'
 
-    def columnfilter(self):
+    def js_columnfilter_init(self):
         return {'type': self.coltype}
 
     def filter(self, strg, queryset=None):
@@ -143,7 +142,7 @@ class ChoiceColumn(BaseDTColumn):
         super(ChoiceColumn, self).__init__(lookup_op='', *a, **k)
         self.choices = choices
 
-    def columnfilter(self):
+    def js_columnfilter_init(self):
         values = list(self.choices)
         return {'type': 'select', 'values':values}
 

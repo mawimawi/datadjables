@@ -18,7 +18,7 @@ $(window).resize(function () {
     resizetimer = window.setTimeout("adjust_to_screen()", 300);
 });
 
-function init_datatable(dt, dt_aoColumns, dt_aaSorting, dt_colfilter){
+function init_datatable(dt, dt_aoColumns, dt_aaSorting, dt_columnfilter){
     $.datepicker.regional[""].dateFormat = 'yy-mm-dd';
     $.datepicker.setDefaults($.datepicker.regional['']);
     $.datepicker.setDefaults({
@@ -45,7 +45,7 @@ function init_datatable(dt, dt_aoColumns, dt_aaSorting, dt_colfilter){
 			"sInfoFiltered": "(gefiltert von _MAX_  Einträgen)",
 			"sSearch":       "Suchen"
 		}
-	}).columnFilter({aoColumns: dt_colfilter});
+	}).columnFilter({aoColumns: dt_columnfilter});
     dt.addClass('initialized');
 }
 
@@ -54,7 +54,7 @@ $(document).ready( function() {
         var dt_id = this.id;
         var dt = $('#' + dt_id);
         if(!dt.hasClass('initialized')){ // prevent multiple inits via history.back
-            init_datatable(dt, dt.data('columns'), dt.data('sorting'), dt.data('colfilter'));
+            init_datatable(dt, dt.data('columns'), dt.data('sorting'), dt.data('columnfilter'));
         }
     });
 });

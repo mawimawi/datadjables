@@ -17,9 +17,9 @@ class DataDjable(TemplateView):
     def thead(self):
         """Renders the table header as HTML"""
         return mark_safe('<th>' + '</th><th>'.join(
-            [obj.thead() for obj in self._meta.columns]) + '</th>')
+            [obj.coltitle for obj in self._meta.columns]) + '</th>')
 
-    def get_ordering(self):
+    def js_get_ordering(self):
         """Returns the default ordering of the DataDjable in a format
         that jQuery-DataTables understands."""
         orderarray = []
@@ -36,11 +36,11 @@ class DataDjable(TemplateView):
 
         return dumps(orderarray)
 
-    def js(self):
+    def js_data_columns(self):
         """Creates the javascript list of objects for initialization of 
         the jQuery-DataTable"""
         return mark_safe('[' +
-                         ','.join([obj.js() for obj in self._meta.columns]) +
+                         ','.join([obj.js_data_column() for obj in self._meta.columns]) +
                          ']')
 
     def result_data(self, queryset):
@@ -51,10 +51,10 @@ class DataDjable(TemplateView):
         """Returns one row to be shown in the jQuery-DataTable tbody"""
         return [x.dt_cell_content(queryset_row) for x in self._meta.columns]
 
-    def columnfilter_init(self):
+    def js_columnfilter_init(self):
         """Returns the initialization JavaScript list for the
         jQuery-DataTable.columnfilter plugin"""
-        result = [x.columnfilter() for x in self._meta.columns]
+        result = [x.js_columnfilter_init() for x in self._meta.columns]
         return mark_safe(dumps(result))
 
     def sort_queryset(self, queryset, request):
