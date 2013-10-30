@@ -8,17 +8,21 @@ from django.shortcuts import get_object_or_404
 from django.views import generic
 
 from datadjables.datadjable_testing.models import Person, Purchase, Product
-from datadjables.views import DataDjable
+from datadjables.views import DataDjable, ModelDataDjable
 from datadjables.column import StringColumn, DateColumn, IntegerColumn, \
         DecimalColumn, NumberRangeColumn, ChoiceColumn, DateRangeColumn
 
-class DPersons(DataDjable):
+class DPersons(ModelDataDjable):
     template_name = 'datadjable_testing/person_list.html'
+    model = Person
 
+    # "last_name" is being used for the lookup field
     last_name = StringColumn(coltitle=_('Name'),
         searchable=True, sortable=True,
         lookup_op='icontains',
         renderer=u'<b>{obj.last_name} {obj.first_name}</b>')
+    first_name = StringColumn(coltitle=_('First name'),
+            )
 
     birthdate = DateRangeColumn(
         coltitle=_('Date of birth'), sortable=True, searchable=True)
@@ -30,10 +34,7 @@ class DPersons(DataDjable):
 
     class Meta:
         html_id = "personstable"
-        #fulltext_search_columns = 'first_name last_name'.split()
-
-    def base_query(self, *a, **k):
-        return Person.objects.all()
+        fulltext_search_columns = ['last_name','first_name']
 
 
 class DProducts(DataDjable):

@@ -83,11 +83,20 @@ class DataDjable(TemplateView):
     def filter_fulltext(self, queryset, request):
         """global search over all "fulltext_search_columns" """
         expr = request.GET.get('sSearch', '').encode('utf-8')
+        subqueries = None
         if expr:
-            q = None
             for column in self._meta.fulltext_search_columns:
-                q = q | column.filter(expr) if q else column.filter(expr)
-            return queryset.filter(q)
+                q = column.filter(expr, self.base_query())
+                if q is not None:
+                    if subqueries:
+                        subqueries.append(q)
+                    else:
+                        subqueries = [q]
+        if subqueries:
+            subqueryset = subqueries[0]
+            for q in subqueries[1:]:
+                subqueryset = subqueryset | q
+            queryset = queryset & subqueryset
         return queryset
 
     def base_query(self, *args, **kwargs):
@@ -121,7 +130,7 @@ class DataDjable(TemplateView):
                 queryset = queryset.extra(select={column.colname:column.selector})
 
         # filter by all fulltext_search_columns
-        # queryset = self.filter_fulltext(queryset, request)
+        queryset = self.filter_fulltext(queryset, request)
 
         # filter by individual columns
         queryset = self.filter_by_columns(queryset, request)
@@ -146,4 +155,18 @@ class DataDjable(TemplateView):
         response = HttpResponse(jsonString, mimetype="application/javascript")
 
         add_never_cache_headers(response)
+        print queryset.query
         return response
+
+class ModelDataDjable(DataDjable):
+    model = None
+    def base_query(self, *args, **kwargs):
+        return self.model.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        if not self.model:
+            raise AttributeError(
+                "You need to define a ``model`` class property.")
+
+        return super(ModelDataDjable, self).get(request, *args, **kwargs)
+

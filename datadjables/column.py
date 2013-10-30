@@ -84,6 +84,8 @@ class NumberRangeColumn(BaseDTColumn):
         return {'type': self.coltype}
 
     def filter(self, strg, queryset=None):
+        if '~' not in strg:
+            return None
         parts = strg.split('~')
         kwargs = {}
         if parts[0]:
@@ -123,6 +125,8 @@ class DateRangeColumn(BaseDTColumn):
         return {'type': self.coltype}
 
     def filter(self, strg, queryset=None):
+        if '~' not in strg:
+            return None
         parts = strg.split('~')
         kwargs = {}
         if parts[0]:
