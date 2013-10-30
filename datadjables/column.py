@@ -9,7 +9,7 @@ from .renderers import simple
 
 class _OrQ(Q):
     """A Q object which uses OR instead of AND for combining multiple 
-    fields"""
+    lookup model fields in a datadjable column"""
     default = Q.OR
 
 
@@ -24,12 +24,11 @@ class BaseDTColumn(object):
     coltype = None
 
     def __init__(self, colname=None, coltitle=u'',
-                 coltitle_plural=None, searchable=False, sortable=True,
+                 searchable=False, sortable=True,
                  renderer=None, lookup_fields=(), lookup_op='icontains',
-                 colwidth="", extra=None):
+                 colwidth="", selector=None):
         self.colname = colname
         self.coltitle = coltitle
-        #self.coltitle_plural = coltitle_plural or u"%ss" % coltitle
         self.searchable = searchable
         self.sortable = sortable
         self.renderer = renderer
@@ -37,7 +36,7 @@ class BaseDTColumn(object):
         self.colwidth = colwidth
         self._count = BaseDTColumn._counter.next()
         self.lookup_op = lookup_op and '__%s' % lookup_op or ''
-        self.extra = extra or None
+        self.selector = selector or None
 
     def _set_colname(self, colname):
         """Set the column name and - if necessary - renderer. This method
@@ -62,6 +61,9 @@ class BaseDTColumn(object):
         return self.renderer.format(obj=obj)  # must be a string or unicode
 
     def filter(self, strg, queryset=None):
+        if self.selector:
+            return queryset.extra(where=[self.selector + '=%s'],
+                    params=[strg])
         kwargs = dict([
             ('%s%s' % (lookup_field, self.lookup_op), strg)
             for lookup_field in self.lookup_fields or [self.colname, ]

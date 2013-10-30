@@ -19,8 +19,8 @@ class DataDjable(TemplateView):
         return mark_safe('<th>' + '</th><th>'.join(
             [obj.coltitle for obj in self._meta.columns]) + '</th>')
 
-    def js_get_ordering(self):
-        """Returns the default ordering of the DataDjable in a format
+    def js_initial_ordering(self):
+        """Returns the initial ordering of the DataDjable in a format
         that jQuery-DataTables understands."""
         orderarray = []
         for idx, strg in enumerate(self.ordering):
@@ -31,7 +31,6 @@ class DataDjable(TemplateView):
             # cleanup strg
             strg = strg.split('-')[-1]
             strg = strg.split('+')[-1]
-
             orderarray.append((self._meta.colnames.index(strg), order))
 
         return dumps(orderarray)
@@ -40,7 +39,8 @@ class DataDjable(TemplateView):
         """Creates the javascript list of objects for initialization of 
         the jQuery-DataTable"""
         return mark_safe('[' +
-                         ','.join([obj.js_data_column() for obj in self._meta.columns]) +
+                         ','.join([obj.js_data_column() \
+                             for obj in self._meta.columns]) +
                          ']')
 
     def result_data(self, queryset):
@@ -57,7 +57,7 @@ class DataDjable(TemplateView):
         result = [x.js_columnfilter_init() for x in self._meta.columns]
         return mark_safe(dumps(result))
 
-    def sort_queryset(self, queryset, request):
+    def order_queryset(self, queryset, request):
         ordering = []
         for sortcol in range(len(self._meta.columns)):
             colnum = int(request.GET.get('iSortCol_%s' % sortcol, -1))
@@ -70,7 +70,7 @@ class DataDjable(TemplateView):
                         prefix,
                         self._meta.columns[colnum].colname
                     ))
-        return queryset.order_by(*ordering)
+        return queryset.extra(order_by=ordering)
 
     def filter_by_columns(self, queryset, request):
         for colnum in range(len(self._meta.columns)):
@@ -95,10 +95,13 @@ class DataDjable(TemplateView):
             "You need to define a base_query method which returns a QuerySet")
 
     def get(self, request, *args, **kwargs):
-        if request.is_ajax():
+
+        # Should we send table data?
+        if request.is_ajax() or request.GET.get('sEcho'):
             return self.ajax_response(request, *args, **kwargs)
         else:
-            return super(DataDjable, self).get(request, dtobj=self, *args, **kwargs)
+            return super(DataDjable, self).get(
+                request, dtobj=self, *args, **kwargs)
     
     def ajax_response(self, request, *args, **kwargs):
         # check for weird input
@@ -112,20 +115,27 @@ class DataDjable(TemplateView):
         start = int(request.GET.get('iDisplayStart', 0))
         end = start + length
 
+        # add additional columns which are not part of the ordinary model
+        for column in self._meta.columns:
+            if column.selector:
+                queryset = queryset.extra(select={column.colname:column.selector})
+
         # filter by all fulltext_search_columns
-        queryset = self.filter_fulltext(queryset, request)
+        # queryset = self.filter_fulltext(queryset, request)
 
         # filter by individual columns
         queryset = self.filter_by_columns(queryset, request)
 
+
         # do the sorting
-        queryset = self.sort_queryset(queryset, request)
+        queryset = self.order_queryset(queryset, request)
 
         # how many records are there?
         total_records = total_display_records = queryset.count()
 
         # slice it
         queryset = queryset[start:end]
+
 
         # return the finished queryset
         jsonString = dumps({'sEcho': echo,

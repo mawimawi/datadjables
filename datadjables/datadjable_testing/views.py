@@ -14,50 +14,36 @@ from datadjables.column import StringColumn, DateColumn, IntegerColumn, \
 
 class DPersons(DataDjable):
     template_name = 'datadjable_testing/person_list.html'
-    first_name = StringColumn(
-        coltitle=_('First name'), coltitle_plural=_('First names'),
-        searchable=True, sortable=True)
-    last_name = ChoiceColumn(
-        coltitle=_('Last name'), coltitle_plural=_('Last names'),
+
+    last_name = StringColumn(coltitle=_('Name'),
         searchable=True, sortable=True,
-        choices=Person.objects.all().values_list(
-            'last_name', flat=True).distinct().order_by('last_name')
-        )
-    zip = NumberRangeColumn(
-        coltitle=_('Zip code'), coltitle_plural=_('Zip codes'),
-        searchable=True, sortable=True)
+        lookup_op='icontains',
+        renderer=u'<b>{obj.last_name} {obj.first_name}</b>')
+
     birthdate = DateRangeColumn(
-        coltitle=_('Date of birth'), coltitle_plural=_('Dates of birth'),
-        sortable=True, searchable=True)
-    age = IntegerColumn(coltitle=_('Age'), coltitle_plural=_('Ages'),
-                        sortable=False, searchable=False,
-                        )
-    full_name = StringColumn(
-        coltitle=_('Full name'), coltitle_plural=_('Full names'),
-        searchable=False, sortable=False,
-        lookup_fields=('first_name', 'last_name'),
-        lookup_op='endswith',
-        renderer=u'<b>{obj.last_name} {obj.first_name}</b>',
-    )
+        coltitle=_('Date of birth'), sortable=True, searchable=True)
+
+    age = IntegerColumn(coltitle=_('Age'), sortable=False, searchable=False)
+
+    zip = NumberRangeColumn(coltitle=_('Zip code'),
+            searchable=True, sortable=True)
 
     class Meta:
         html_id = "personstable"
-        fulltext_search_columns = 'first_name last_name'.split()
+        #fulltext_search_columns = 'first_name last_name'.split()
 
     def base_query(self, *a, **k):
         return Person.objects.all()
 
 
 class DProducts(DataDjable):
+    name = StringColumn(searchable=True, coltitle=_('Name'),
+        renderer=Template('{{ obj }}'))
     standard_price = DecimalColumn(searchable=True,
         coltitle=_('Std. price'),
-        coltitle_plural=_("Std. prices"),
         renderer=Template('{{ obj.standard_price|floatformat:2 }}'),)
-    name = StringColumn(searchable=True, coltitle=_('Name'),
-        coltitle_plural=_("Names"), renderer=Template('{{ obj }}'))
     avg_price = DecimalColumn(
         coltitle=_('Avg. price'),
-        coltitle_plural=_('Avg. prices'),
         renderer=Template('{{ obj.avg_price|floatformat:2 }}'),
         sortable=True,
         searchable=True)
@@ -73,19 +59,17 @@ class DProducts(DataDjable):
 
 class DPurchases(DataDjable):
     buyer__last_name = StringColumn(
-        coltitle=_('Buyer'), coltitle_plural=_("Buyers"),
+        coltitle=_('Buyer'),
         lookup_fields=('buyer__first_name',
                        'buyer__last_name'),
         renderer=get_template('datadjable_testing/person_table_cell.html'),
         searchable=True, sortable=True,)
     product__name = StringColumn(coltitle=_('Product'),
-                                 coltitle_plural=_("Products"),
                                  searchable=True,
                                  sortable=True,
                                  renderer=u"{obj.product.name}",
                                  )
-    purchase_timestamp = DateColumn(coltitle=_('Purchase date'),
-                                    coltitle_plural=_('Purchase dates'))
+    purchase_timestamp = DateColumn(coltitle=_('Purchase date'))
     price = DecimalColumn(coltitle=_('Price'))
 
     # be careful! fields in a "extra" clause cannot be searched easily
@@ -113,13 +97,11 @@ class DPurchases(DataDjable):
 
 class DPersonPurchases(DPurchases):
     product__name = StringColumn(coltitle=_('Product'),
-                                 coltitle_plural=_("Products"),
                                  searchable=True,
                                  sortable=True,
                                  renderer=u"{obj.product.name}",
                                  )
-    purchase_timestamp = DateColumn(coltitle=_('Purchase date'),
-                                    coltitle_plural=_('Purchase dates'))
+    purchase_timestamp = DateColumn(coltitle=_('Purchase date'))
     price = DecimalColumn(coltitle=_('Price'))
 
     class Meta:
