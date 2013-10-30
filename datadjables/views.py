@@ -155,7 +155,6 @@ class DataDjable(TemplateView):
         response = HttpResponse(jsonString, mimetype="application/javascript")
 
         add_never_cache_headers(response)
-        print queryset.query
         return response
 
 class ModelDataDjable(DataDjable):
