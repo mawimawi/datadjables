@@ -42,6 +42,6 @@ Internal use:
 
 Howto create a new tar.gz file for (my internally used) piprepos:
 
-# IMPORTANT: first update the version number in setup.py
+IMPORTANT: first update the version number in setup.py
 python setup.py sdist
 svn add dist/* 2>/dev/null ; svn ci -m "version bump" dist
