@@ -5,8 +5,10 @@ jQuery Datatables for Django (ajaxy, no pagination necessary, nice filter column
 Filtering by columns is made possible by the great ColumnFilter plugin
 http://code.google.com/p/jquery-datatables-column-filter/wiki/ColumnFilter
 
-It's under quite heavy development, and I plan to make available custom columns
-which are searchable and sortable. An example for this is a model like this:
+It's under quite heavy development. At the moment there are already
+custom columns available which are searchable and sortable.
+
+An example for this is a model like this:
 
     class Person(models.Model):
         birthdate = models.DateField()
@@ -19,14 +21,21 @@ which are searchable and sortable. An example for this is a model like this:
 Stay tuned, hopefully you'll like this.
 
 
+Testing:
+--------
+
+    $ coverage run ./manage.py test
+    $ coverage html --include='datadjables*'
+
+Then open the page ./htmlcov/index.html in your web browser.
+
 Some documentation:
 -------------------
 
-$ cd docs
-$ make html
+    $ cd docs
+    $ make html
 
 Then open your browser and go to ./_build/index.html
-
 
 Internal use:
 -------------
