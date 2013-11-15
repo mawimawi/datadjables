@@ -1,4 +1,5 @@
 recursive-include datadjables *
 recursive-include docs *
+graft datadjables/static
 
 global-exclude *.pyc

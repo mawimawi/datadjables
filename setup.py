@@ -2,7 +2,7 @@
 #from distutils.core import setup
 from setuptools import setup, find_packages
 
-version = '1.0.18'
+version = '1.0.21'
 
 setup(
     name='datadjables',
@@ -12,14 +12,6 @@ setup(
     author_email='mw@martinwinkler.com',
     url='https://https://github.com/mawimawi/datadjables',
     packages=find_packages(),
-    package_data={
-        'datadjables': [
-            'static/datadjables/css/*',
-            'static/datadjables/js/*',
-            'static/datadjables/images/*',
-            'templates/datadjables/*',
-        ]
-    },
     zip_safe=False,
     install_requires=['Django>=1.5', ]
 )
