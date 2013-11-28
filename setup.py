@@ -2,7 +2,7 @@
 #from distutils.core import setup
 from setuptools import setup, find_packages
 
-version = '1.0.21'
+version = '1.0.23'
 
 setup(
     name='datadjables',
@@ -12,6 +12,7 @@ setup(
     author_email='mw@martinwinkler.com',
     url='https://https://github.com/mawimawi/datadjables',
     packages=find_packages(),
+    include_package_data=True,
     zip_safe=False,
     install_requires=['Django>=1.5', ]
 )

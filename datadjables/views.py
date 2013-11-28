@@ -106,7 +106,7 @@ class DataDjable(TemplateView):
     def get(self, request, *args, **kwargs):
 
         # Should we send table data?
-        if request.is_ajax() or request.GET.get('sEcho'):
+        if request.GET.get('sEcho'):
             return self.ajax_response(request, *args, **kwargs)
         else:
             return super(DataDjable, self).get(
