@@ -49,7 +49,7 @@ function init_datatable(dt, dt_aoColumns, dt_aaSorting, dt_columnfilter){
     dt.addClass('initialized');
 }
 
-$(document).ready( function() {
+function dt_init() {
     $(".django-datadjable").each( function() {
         var dt_id = this.id;
         var dt = $('#' + dt_id);
@@ -57,4 +57,8 @@ $(document).ready( function() {
             init_datatable(dt, dt.data('columns'), dt.data('sorting'), dt.data('columnfilter'));
         }
     });
+}
+
+$(document).ready( function() {
+	dt_init();
 });
