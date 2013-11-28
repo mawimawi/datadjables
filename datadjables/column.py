@@ -88,17 +88,25 @@ class NumberRangeColumn(BaseDTColumn):
             return None
         parts = strg.split('~')
         kwargs = {}
-        if parts[0]:
-            kwargs.update(dict([
-                ('%s__gte' % lookup_field, parts[0])
-                for lookup_field in self.lookup_fields or [self.colname, ]
-            ]))
-        if parts[1]:
-            kwargs.update(dict([
-                ('%s__lte' % lookup_field, parts[1])
-                for lookup_field in self.lookup_fields or [self.colname, ]
-            ]))
-        return queryset.filter(Q(**kwargs))
+
+        if self.selector:
+            if parts[0]:
+                queryset = queryset.extra(where=[self.selector + '>= %s'], params=[parts[0]])
+            if parts[1]:
+                queryset = queryset.extra(where=[self.selector + '<= %s'], params=[parts[1]])
+            return queryset
+        else:
+            if parts[0]:
+                kwargs.update(dict([
+                    ('%s__gte' % lookup_field, parts[0])
+                    for lookup_field in self.lookup_fields or [self.colname, ]
+                ]))
+            if parts[1]:
+                kwargs.update(dict([
+                    ('%s__lte' % lookup_field, parts[1])
+                    for lookup_field in self.lookup_fields or [self.colname, ]
+                ]))
+            return queryset.filter(Q(**kwargs))
 
 
 
