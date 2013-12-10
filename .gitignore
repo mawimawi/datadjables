@@ -2,3 +2,4 @@
 .coverage
 .svn
 dist
+datadjables.egg-info
