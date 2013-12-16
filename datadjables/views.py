@@ -32,7 +32,7 @@ class DataDjable(TemplateView):
             strg = strg.split('-')[-1]
             strg = strg.split('+')[-1]
             colnames = []
-            for idx, col in enumerate(cls._meta.columns):
+            for idx, col in enumerate(self._meta.columns):
                 colnames.append(col.colname)
             orderarray.append((colnames.index(strg), order))
 
