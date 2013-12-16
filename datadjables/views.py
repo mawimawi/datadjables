@@ -31,7 +31,10 @@ class DataDjable(TemplateView):
             # cleanup strg
             strg = strg.split('-')[-1]
             strg = strg.split('+')[-1]
-            orderarray.append((self._meta.colnames.index(strg), order))
+            colnames = []
+            for idx, col in enumerate(cls._meta.columns):
+                colnames.append(col.colname)
+            orderarray.append((colnames.index(strg), order))
 
         return dumps(orderarray)
 

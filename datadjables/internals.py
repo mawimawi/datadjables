@@ -28,12 +28,9 @@ class MetaDataDjable(type):
                     cls._meta.columns.append(column)
             cls._meta.columns.sort(key=operator.attrgetter('_count'))
 
-        # create index numbers for all our columns and also save the column
-        # names
-        cls._meta.colnames = []
+        # create index numbers for all our columns
         for idx, col in enumerate(cls._meta.columns):
             col.column_index = idx
-            cls._meta.colnames.append(col.colname)
 
         standard_ordering = cls._meta.columns and \
             [cls._meta.columns[0].colname, ] or []
