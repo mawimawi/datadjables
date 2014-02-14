@@ -52,7 +52,7 @@ class DataDjable(TemplateView):
 
     def get_row(self, queryset_row):
         """Returns one row to be shown in the jQuery-DataTable tbody"""
-        return [x.dt_cell_content(queryset_row) for x in self._meta.columns]
+        return [x.dt_cell_content(queryset_row, view=self) for x in self._meta.columns]
 
     def js_columnfilter_init(self):
         """Returns the initialization JavaScript list for the
@@ -117,7 +117,7 @@ class DataDjable(TemplateView):
     
     def ajax_response(self, request, *args, **kwargs):
         # check for weird input
-        queryset = self.base_query(request=request, *args, **kwargs)
+        queryset = self.base_query(*args, **kwargs)
         echo = request.GET.get('sEcho', '0')  # needed by datatables.js
 
         # return max. 'self.max_rows_per_batch' rows

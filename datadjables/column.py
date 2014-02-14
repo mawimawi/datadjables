@@ -54,10 +54,12 @@ class BaseDTColumn(object):
             self.coltype,))
         return '{' + ', '.join(result) + '}'
 
-    def dt_cell_content(self, obj):
+    def dt_cell_content(self, obj, view=None):
         """Returns the html content for current column of the current object"""
         if isinstance(self.renderer, Template):
-            return self.renderer.render(Context({'obj': obj}))
+            return self.renderer.render(Context({'obj': obj, 'view': view}))
+        if callable(self.renderer):  # some self defined function
+            return self.renderer(obj=obj, view=view)
         return self.renderer.format(obj=obj)  # must be a string or unicode
 
     def filter(self, strg, queryset=None):
