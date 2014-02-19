@@ -334,6 +334,8 @@
             if (aData == null)
                 aData = _fnGetColumnValues(oTable.fnSettings(), iColumn, true, false, true);
             var index = iColumn;
+            var optionvalue = "";
+            var optioncontent = "";
             var currentFilter = oTable.fnSettings().aoPreSearchCols[i].sSearch;
             if (currentFilter == null || currentFilter == "")//Issue 81
                 currentFilter = oSelected;
@@ -342,23 +344,31 @@
             var j = 0;
             var iLen = aData.length;
             for (j = 0; j < iLen; j++) {
-                if (typeof (aData[j]) != 'object') {
+            	if (Object.prototype.toString.call(aData[j]) !== "[object Array]") {
+            		optionvalue = aData[j];
+            		optioncontent = aData[j];
+				}
+				else {
+            		optionvalue = aData[j][0];
+            		optioncontent = aData[j][1];
+				}
+                if (typeof (optionvalue) != 'object') {
                     var selected = '';
-                    if (escape(aData[j]) == currentFilter
-                        || escape(aData[j]) == escape(currentFilter)
+                    if (escape(optionvalue) == currentFilter
+                        || escape(optionvalue) == escape(currentFilter)
                         )
                         selected = 'selected '
-                    r += '<option ' + selected + ' value="' + escape(aData[j]) + '">' + aData[j] + '</option>';
+                    r += '<option ' + selected + ' value="' + escape(optionvalue) + '">' + optioncontent + '</option>';
                 }
                 else {
                     var selected = '';
                     if (bRegex) {
                         //Do not escape values if they are explicitely set to avoid escaping special characters in the regexp
-                        if (aData[j].value == currentFilter) selected = 'selected ';
-                        r += '<option ' + selected + 'value="' + aData[j].value + '">' + aData[j].label + '</option>';
+                        if (optionvalue.value == currentFilter) selected = 'selected ';
+                        r += '<option ' + selected + 'value="' + optionvalue.value + '">' + optioncontent.label + '</option>';
                     } else {
-                        if (escape(aData[j].value) == currentFilter) selected = 'selected ';
-                        r += '<option ' + selected + 'value="' + escape(aData[j].value) + '">' + aData[j].label + '</option>';
+                        if (escape(optionvalue.value) == currentFilter) selected = 'selected ';
+                        r += '<option ' + selected + 'value="' + escape(optionvalue.value) + '">' + optioncontent.label + '</option>';
                     }
                 }
             }
