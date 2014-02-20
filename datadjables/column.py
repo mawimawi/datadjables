@@ -83,7 +83,9 @@ class NumberRangeColumn(BaseDTColumn):
     coltype = 'number-range'
 
     def js_columnfilter_init(self):
-        return {'type': self.coltype}
+        return {'type': self.coltype,
+                'sRangeFormat': '{from}-{to}'
+                }
 
     def filter(self, strg, queryset=None):
         if '~' not in strg:
