@@ -1,0 +1,71 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Datadjables\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-20 07:31-0600\n"
+"PO-Revision-Date: 2014-02-20 14:20+0100\n"
+"Last-Translator: Martin Winkler <mw@martinwinkler.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: column.py:88 column.py:141
+#, python-brace-format
+msgid "From {from} to {to}"
+msgstr "Von {from} bis {to}"
+
+#: datadjable_testing/views.py:20 datadjable_testing/views.py:41
+msgid "Name"
+msgstr "Name"
+
+#: datadjable_testing/views.py:24
+msgid "First name"
+msgstr "Vorname"
+
+#: datadjable_testing/views.py:28
+msgid "Date of birth"
+msgstr "Geb.datum"
+
+#: datadjable_testing/views.py:30
+msgid "Age"
+msgstr "Alter"
+
+#: datadjable_testing/views.py:32
+msgid "Zip code"
+msgstr "PLZ"
+
+#: datadjable_testing/views.py:44
+msgid "Std. price"
+msgstr "Normalpreis"
+
+#: datadjable_testing/views.py:47
+msgid "Avg. price"
+msgstr "Durchschn.preis"
+
+#: datadjable_testing/views.py:63
+msgid "Buyer"
+msgstr "Käufer"
+
+#: datadjable_testing/views.py:68 datadjable_testing/views.py:100
+msgid "Product"
+msgstr "Produkt"
+
+#: datadjable_testing/views.py:73 datadjable_testing/views.py:105
+msgid "Purchase date"
+msgstr "Kaufdatum"
+
+#: datadjable_testing/views.py:74 datadjable_testing/views.py:106
+msgid "Price"
+msgstr "Preis"
+
+#: datadjable_testing/views.py:79
+msgid "Price minux 20% tax"
+msgstr "Preis exkl. 20% USt"
