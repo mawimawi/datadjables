@@ -3,6 +3,7 @@ import itertools
 
 from django.db.models import Q
 from django.template import Template, Context
+from django.utils.translation import ugettext as _
 
 from .renderers import simple
 
@@ -84,7 +85,7 @@ class NumberRangeColumn(BaseDTColumn):
 
     def js_columnfilter_init(self):
         return {'type': self.coltype,
-                'sRangeFormat': '{from}-{to}'
+                'sRangeFormat': _('From {from} to {to}')
                 }
 
     def filter(self, strg, queryset=None):
@@ -95,9 +96,11 @@ class NumberRangeColumn(BaseDTColumn):
 
         if self.selector:
             if parts[0]:
-                queryset = queryset.extra(where=[self.selector + '>= %s'], params=[parts[0]])
+                queryset = queryset.extra(where=[self.selector + '>= %s'],
+                        params=[parts[0]])
             if parts[1]:
-                queryset = queryset.extra(where=[self.selector + '<= %s'], params=[parts[1]])
+                queryset = queryset.extra(where=[self.selector + '<= %s'],
+                        params=[parts[1]])
             return queryset
         else:
             if parts[0]:
@@ -134,7 +137,9 @@ class DateRangeColumn(BaseDTColumn):
     coltype = 'date-range'
 
     def js_columnfilter_init(self):
-        return {'type': self.coltype}
+        return {'type': self.coltype,
+                'sRangeFormat': _('From {from} to {to}')
+                }
 
     def filter(self, strg, queryset=None):
         if '~' not in strg:

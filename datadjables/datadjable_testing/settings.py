@@ -19,3 +19,13 @@ STATIC_URL = '/static/'
 STATIC_ROOT = './static/'
 ROOT_URLCONF = 'datadjables.datadjable_testing.urls'
 
+LANGUAGE_CODE = 'de'
+LANGUAGES = (
+        ('de', 'Deutsch'),
+        ('en', 'English'),
+        )
+
+USE_I18N = True
+USE_L10N = True
+
+
