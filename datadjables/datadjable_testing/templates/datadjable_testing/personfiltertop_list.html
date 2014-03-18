@@ -3,7 +3,6 @@
         <script type="text/javascript" src="/static/datadjables/js/jquery.js"></script>
         <script type="text/javascript" src="/static/datadjables/js/jquery-ui-1.10.3.custom.min.js"></script>
         <script type="text/javascript" src="/static/datadjables/js/jquery.dataTables.js"></script>
-        <script type="text/javascript" src="/static/datadjables/js/dataTables.scroller.js"></script>
         <script type="text/javascript" src="/static/datadjables/js/jquery.dataTables.columnFilter.js"></script>
         <script type="text/javascript" src="/static/datadjables/js/datadjables.js"></script>
         <link rel="stylesheet" href="/static/datadjables/css/jquery.dataTables.css">
@@ -12,6 +11,12 @@
     </head>
     <body>
         <h1>Persons</h1>
+        <p>Filter your data outside of the table</p>
+        <div style="border:1px solid grey; width:620px; margin-left:auto; margin-right:auto; padding:8px">
+            <p><span style="display:inline-block; width:200px;">Last name:</span><span id="f_last_name"></span></p>
+            <p><span style="display:inline-block; width:200px;">Birthdate:</span><span id="f_birthdate"></span></p>
+            <p><span style="display:inline-block; width:200px;">Zip:</span><span id="f_zip"></span></p>
+        </div>
         {% table_init dtobj %}
     </body>
 </html>

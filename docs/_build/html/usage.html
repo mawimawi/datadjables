@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -15,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '1.1.0 alpha',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -82,36 +80,38 @@
 </pre></div>
 </div>
 <p>This is a view that shows a html page with the required JavaScript code and a &lt;table&gt; which contains information to render the datatable in the browser:</p>
-<div class="highlight-python"><pre>{% load datatables %}&lt;html&gt;
+<div class="highlight-python"><div class="highlight"><pre>{% load datatables %}&lt;html&gt;
     &lt;head&gt;
-        &lt;script type="text/javascript" src="/static/datatables/js/jquery.js"&gt;&lt;/script&gt;
-        &lt;script type="text/javascript" src="/static/datatables/js/jquery.dataTables.js"&gt;&lt;/script&gt;
-        &lt;script type="text/javascript" src="/static/datatables/js/django_datatables.js"&gt;&lt;/script&gt;
-        &lt;link rel="stylesheet" href="/static/datatables/css/jquery.dataTables.css"&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;/static/datatables/js/jquery.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;/static/datatables/js/jquery.dataTables.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;/static/datatables/js/django_datatables.js&quot;&gt;&lt;/script&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/static/datatables/css/jquery.dataTables.css&quot;&gt;
     &lt;/head&gt;
     &lt;body&gt;
         &lt;h1&gt;Products&lt;/h1&gt;
         {% table_init dtobj %}
     &lt;/body&gt;
-&lt;/html&gt;</pre>
+&lt;/html&gt;
+</pre></div>
 </div>
 <p>The template tag <tt class="docutils literal"><span class="pre">table_init</span></tt> renders something like:</p>
-<div class="highlight-python"><pre>&lt;table class="django-datatable" id="productstable" data-id="productstable"
- data-columns='[{"bSearchable": false, "bSortable": true, "sType": "string"},
-                {"bSearchable": false, "bSortable": true, "sType": "string"},
-                {"bSearchable": true, "bSortable": true, "sType": "string"}]'
- data-sorting='[[0, &amp;quot;asc&amp;quot;]]'
- data-source='/dt_testing/products/data/'&gt;
+<div class="highlight-python"><div class="highlight"><pre>&lt;table class=&quot;django-datatable&quot; id=&quot;productstable&quot; data-id=&quot;productstable&quot;
+ data-columns=&#39;[{&quot;bSearchable&quot;: false, &quot;bSortable&quot;: true, &quot;sType&quot;: &quot;string&quot;},
+                {&quot;bSearchable&quot;: false, &quot;bSortable&quot;: true, &quot;sType&quot;: &quot;string&quot;},
+                {&quot;bSearchable&quot;: true, &quot;bSortable&quot;: true, &quot;sType&quot;: &quot;string&quot;}]&#39;
+ data-sorting=&#39;[[0, &amp;quot;asc&amp;quot;]]&#39;
+ data-source=&#39;/dt_testing/products/data/&#39;&gt;
  &lt;thead&gt;
      &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Std. price&lt;/th&gt;&lt;th&gt;Avg. price&lt;/th&gt;&lt;/tr&gt;
  &lt;/thead&gt;
  &lt;tbody&gt;&lt;/tbody&gt;
  &lt;tfoot&gt;&lt;tr&gt;
-   &lt;th&gt;&lt;input style="display:none"&gt;&amp;nbsp;&lt;/th&gt;
-   &lt;th&gt;&lt;input style="display:none"&gt;&amp;nbsp;&lt;/th&gt;
-   &lt;th&gt;&lt;input class="search_init" type="text" value="Search Avg. prices" name="search_avg_price"&gt;&lt;/th&gt;
+   &lt;th&gt;&lt;input style=&quot;display:none&quot;&gt;&amp;nbsp;&lt;/th&gt;
+   &lt;th&gt;&lt;input style=&quot;display:none&quot;&gt;&amp;nbsp;&lt;/th&gt;
+   &lt;th&gt;&lt;input class=&quot;search_init&quot; type=&quot;text&quot; value=&quot;Search Avg. prices&quot; name=&quot;search_avg_price&quot;&gt;&lt;/th&gt;
  &lt;/tr&gt;&lt;/tfoot&gt;
-&lt;/table&gt;</pre>
+&lt;/table&gt;
+</pre></div>
 </div>
 <p>You also need a second view which returns the data itself which will be inserted between <tt class="docutils literal"><span class="pre">&lt;tbody&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;/tbody&gt;</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">product_list_ajax</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
@@ -172,7 +172,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Martin Winkler.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

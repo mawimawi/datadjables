@@ -9,7 +9,7 @@ from .renderers import simple
 
 
 class _OrQ(Q):
-    """A Q object which uses OR instead of AND for combining multiple 
+    """A Q object which uses OR instead of AND for combining multiple
     lookup model fields in a datadjable column"""
     default = Q.OR
 
@@ -27,7 +27,7 @@ class BaseDTColumn(object):
     def __init__(self, colname=None, coltitle=u'',
                  searchable=False, sortable=True,
                  renderer=None, lookup_fields=(), lookup_op='icontains',
-                 colwidth="", selector=None):
+                 colwidth="", selector=None, tag_selector=None):
         self.colname = colname
         self.coltitle = coltitle
         self.searchable = searchable
@@ -38,6 +38,7 @@ class BaseDTColumn(object):
         self._count = BaseDTColumn._counter.next()
         self.lookup_op = lookup_op and '__%s' % lookup_op or ''
         self.selector = selector or None
+        self.tag_selector = tag_selector or None
 
     def _set_colname(self, colname):
         """Set the column name and - if necessary - renderer. This method
@@ -74,23 +75,25 @@ class BaseDTColumn(object):
         return queryset.filter(_OrQ(**kwargs))
 
     def js_columnfilter_init(self):
+        result = {}
         if self.searchable:
-            return {'type': self.coltype}
-        else:
-            return None
+            result['type'] = self.coltype
+            if self.tag_selector:  # css selector for filter outside table footer
+                result['sSelector'] = self.tag_selector
+        return result or None
 
 
 class NumberRangeColumn(BaseDTColumn):
     coltype = 'number-range'
 
     def js_columnfilter_init(self):
-        return {'type': self.coltype,
-                'sRangeFormat': _('From {from} to {to}')
-                }
+        result = super(NumberRangeColumn, self).js_columnfilter_init()
+        result['sRangeFormat'] = _('From {from} to {to}')
+        return result
 
     def filter(self, strg, queryset=None):
         if '~' not in strg:
-            return None
+            return queryset
         parts = strg.split('~')
         kwargs = {}
 
@@ -137,13 +140,13 @@ class DateRangeColumn(BaseDTColumn):
     coltype = 'date-range'
 
     def js_columnfilter_init(self):
-        return {'type': self.coltype,
-                'sRangeFormat': _('From {from} to {to}')
-                }
+        result = super(DateRangeColumn, self).js_columnfilter_init()
+        result['sRangeFormat'] = _('From {from} to {to}')
+        return result
 
     def filter(self, strg, queryset=None):
         if '~' not in strg:
-            return None
+            return queryset
         parts = strg.split('~')
         kwargs = {}
         if parts[0]:
@@ -166,7 +169,7 @@ class ChoiceColumn(BaseDTColumn):
         self.choices = choices
 
     def js_columnfilter_init(self):
+        result = super(DateRangeColumn, self).js_columnfilter_init()
         values = list(self.choices)
-        return {'type': 'select', 'values':values}
-
-
+        result['values'] = values
+        return result

@@ -10,7 +10,6 @@ from datadjables.datadjable_testing.models import Person
 
 class HtmlTest(TestCase):
     persons = DPersons()
-#    products = DtProducts()
 
     def get_json(self, url, dct={}, method="get"):
         getpost = getattr(self.client, method)
@@ -37,7 +36,7 @@ class HtmlTest(TestCase):
     def test_js_data_columns(self):
         self.assertEqual(self.persons.js_data_columns(), u'[{"bSearchable": true, "bSortable": true, "sType": "string"},{"bSearchable": false, "bSortable": true, "sType": "string"},{"bSearchable": true, "bSortable": true, "sType": "date-range"},{"bSearchable": false, "bSortable": false, "sType": "numeric"},{"bSearchable": true, "bSortable": true, "sType": "number-range"}]')
 
-    def test_03_thead(self):
+    def test_thead(self):
         response = self.client.get(reverse('datadjable_testing_person_list'))
         strippedresponse = ''.join([x.strip() for x in response.content.decode('utf8').splitlines()])
 
@@ -117,4 +116,34 @@ class HtmlTest(TestCase):
         zipcodes = u'545 995 50 649 391'.split()
         respzipcodes = [x[4] for x in resp['aaData']]
         self.assertListEqual(respzipcodes, zipcodes)
+
+    def test_date_range(self):
+        resp = self.get_json(reverse('datadjable_testing_personfiltertop_list'),
+                {'sSearch_0': 'b',
+                 'sSearch_2': '1990-06-01~1990-08-04',
+                 'sEcho':'0',
+                 'iDisplayLength': 10,
+                 })
+        self.assertEqual(u'Biwer', resp['aaData'][0][0])
+        assert resp[u'iTotalRecords'] == 1
+
+    def test_date_invalid_date_range(self):
+        resp = self.get_json(reverse('datadjable_testing_personfiltertop_list'),
+                {'sSearch_2': '1990-06-01',
+                 'sEcho':'0',
+                 })
+        assert resp[u'iTotalRecords'] == 500
+
+    def test_date_invalid_number_range(self):
+        resp = self.get_json(reverse('datadjable_testing_personfiltertop_list'),
+                {'sSearch_3': '1',
+                 'sEcho':'0',
+                 })
+        assert resp[u'iTotalRecords'] == 500
+
+    def test_colwidth(self):
+        resp = self.client.get(reverse('datadjable_testing_simpleperson_list'))
+        dtobj = resp.context.get('dtobj')
+        sWidth = json.loads(dtobj.js_data_columns())[0]['sWidth']
+        assert sWidth == '90%'
 

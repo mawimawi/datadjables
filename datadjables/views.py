@@ -39,7 +39,7 @@ class DataDjable(TemplateView):
         return dumps(orderarray)
 
     def js_data_columns(self):
-        """Creates the javascript list of objects for initialization of 
+        """Creates the javascript list of objects for initialization of
         the jQuery-DataTable"""
         return mark_safe('[' +
                          ','.join([obj.js_data_column() \
@@ -114,7 +114,7 @@ class DataDjable(TemplateView):
         else:
             return super(DataDjable, self).get(
                 request, dtobj=self, *args, **kwargs)
-    
+
     def ajax_response(self, request, *args, **kwargs):
         # check for weird input
         queryset = self.base_query(*args, **kwargs)
@@ -162,6 +162,7 @@ class DataDjable(TemplateView):
 
 class ModelDataDjable(DataDjable):
     model = None
+
     def base_query(self, *args, **kwargs):
         return self.model.objects.all()
 
@@ -171,4 +172,3 @@ class ModelDataDjable(DataDjable):
                 "You need to define a ``model`` class property.")
 
         return super(ModelDataDjable, self).get(request, *args, **kwargs)
-
