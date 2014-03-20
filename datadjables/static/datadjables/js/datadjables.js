@@ -1,6 +1,7 @@
 var resizetimer = null;
 var calcDataTableHeight = function(dt) {
-    return window.innerHeight - $('.django-datadjable').offset().top - 105;
+    console.log("px = " + dt.adjust_bottom_px);
+    return window.innerHeight - $('.django-datadjable').offset().top - dt.adjust_bottom_px;
 };
 
 var adjust_to_screen = function() {
@@ -18,7 +19,8 @@ $(window).resize(function () {
     resizetimer = window.setTimeout("adjust_to_screen()", 300);
 });
 
-function init_datatable(dt, dt_aoColumns, dt_aaSorting, dt_columnfilter){
+function init_datatable(dt, dt_aoColumns, dt_aaSorting,
+                        dt_columnfilter, adjust_bottom_px){
     $.datepicker.regional[""].dateFormat = 'yy-mm-dd';
     $.datepicker.setDefaults($.datepicker.regional['']);
     $.datepicker.setDefaults({
@@ -26,6 +28,7 @@ function init_datatable(dt, dt_aoColumns, dt_aaSorting, dt_columnfilter){
       changeYear: true,
       yearRange: "-50:+50"});
 
+    dt.adjust_bottom_px = adjust_bottom_px;
     var oTable = $('#' + dt.data("id")).dataTable({
 //      'sPaginationType': 'full_numbers',
     'iDisplayLength': 50,
@@ -59,7 +62,8 @@ function dt_init() {
         var dt_id = this.id;
         var dt = $('#' + dt_id);
         if(!dt.hasClass('initialized')){ // prevent multiple inits via history.back
-            init_datatable(dt, dt.data('columns'), dt.data('sorting'), dt.data('columnfilter'));
+            init_datatable(dt, dt.data('columns'), dt.data('sorting'), dt.data('columnfilter'),
+                           dt.data('adjust_bottom_px'));
         }
     });
 }

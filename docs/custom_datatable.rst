@@ -14,6 +14,7 @@ Creating a DataDjable is very similar to creating a Django form or a Django mode
           fulltext_search_columns = ('myfirstcolumn',)
           columns = ('myfirstcolumn',)
           show_tablefooter = False
+          adjust_bottom_px = 105
 
 The ``Meta`` class can contain these attributes:
 
@@ -26,3 +27,5 @@ The ``Meta`` class can contain these attributes:
 * ordering: A tuple in the form ``('-mylastcolumn', 'myfirstcolumn')``. This is the same syntax as for Django models, and is being used as ordering when initially showing the DataTable in the browser.
 
 * show_tablefooter (default: True): a boolean whether to show the footer of the table. You might want not to display the footer if you use a ``tag_selector`` for your columns, or if you do not need the columnfilter at all.
+
+* adjust_bottom_px (default: 105): A Datadjable tries to maximize its size according to the window's height. If this (clumsy) calculation fails, you can adjust the amount of pixels here. Any integer is allowed (even negative ones)

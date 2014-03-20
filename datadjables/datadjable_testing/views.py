@@ -36,6 +36,7 @@ class DPersons(ModelDataDjable):
         html_id = "personstable"
         show_tablefooter = True
         fulltext_search_columns = ['last_name','first_name']
+        adjust_bottom_px = 90
 
 
 class DPersonsFilterTop(ModelDataDjable):
