@@ -1,8 +1,14 @@
+{% spaceless %}
 <table class="django-datadjable" id="{{ dt.html_id }}" data-id="{{ dt.html_id }}"
- data-columns='{{ dt.js_data_columns }}' data-sorting='{{ dt.js_initial_ordering }}'
- data-columnfilter='{{ dt.js_columnfilter_init }}'>
- <thead><tr>{{ dt.thead }}</tr></thead>
- <tbody></tbody>
- <tfoot><tr>{{ dt.thead }}</tr></tfoot>
+    data-columns='{{ dt.js_data_columns }}'
+    data-sorting='{{ dt.js_initial_ordering }}'
+    data-columnfilter='{{ dt.js_columnfilter_init }}'>
+    <thead>
+        <tr>{{ dt.thead }}</tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot{% if dt.show_tablefooter %} style="display:none"{% endif %}>
+        <tr>{{ dt.thead }}</tr>
+    </tfoot>
 </table>
-
+{% endspaceless %}

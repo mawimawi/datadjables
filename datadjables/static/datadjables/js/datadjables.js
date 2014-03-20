@@ -34,9 +34,9 @@ function init_datatable(dt, dt_aoColumns, dt_aaSorting, dt_columnfilter){
 //    "bScrollCollapse": true,
     "sScrollY": calcDataTableHeight(dt),
     "sAjaxSource": "",
-    "sDom": "tSip",
+    "sDom": "tSi",
     "oScroller": {
-      "loadingIndicator": true
+      "loadingIndicator": false
     },
 //    "bDeferRender": true,
 //    "aoColumns": dt_aoColumns,

@@ -62,6 +62,7 @@
         <span class="n">html_id</span> <span class="o">=</span> <span class="s">&#39;mydatatable&#39;</span>
         <span class="n">fulltext_search_columns</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;myfirstcolumn&#39;</span><span class="p">,)</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;myfirstcolumn&#39;</span><span class="p">,)</span>
+        <span class="n">show_tablefooter</span> <span class="o">=</span> <span class="bp">False</span>
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">Meta</span></tt> class can contain these attributes:</p>
@@ -70,6 +71,7 @@
 <li>fulltext_search_columns (optional): A tuple indicating all columns that shall be searched when a user enters text into the search field on the top right of the jQuery DataTable. If empty or not given, then all columns will be searched.</li>
 <li>columns (optional, default is to display all defined columns): If you would like to only display some columns, or in a different order than defined, use this tuple with all column names that should be displayed, in this order.</li>
 <li>ordering: A tuple in the form <tt class="docutils literal"><span class="pre">('-mylastcolumn',</span> <span class="pre">'myfirstcolumn')</span></tt>. This is the same syntax as for Django models, and is being used as ordering when initially showing the DataTable in the browser.</li>
+<li>show_tablefooter (default: True): a boolean whether to show the footer of the table. You might want not to display the footer if you use a <tt class="docutils literal"><span class="pre">tag_selector</span></tt> for your columns, or if you do not need the columnfilter at all.</li>
 </ul>
 </div>
 

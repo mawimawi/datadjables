@@ -54,10 +54,10 @@
 <p>THIS SECTION IS OUTDATED</p>
 <p>DataDjables has a ready-to-use demo application built in. For a quick try do the following:</p>
 <p>Create a new Django project:</p>
-<div class="highlight-python"><div class="highlight"><pre>django-admin startproject mydatatables
+<div class="highlight-python"><div class="highlight"><pre>django-admin startproject mydatadjables
 </pre></div>
 </div>
-<p>copy the datatables directory into the project directory</p>
+<p>copy the datadjables directory into the project directory</p>
 <p>Make sure that your settings file has the following configured:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">USE_TZ</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c"># Only important for this demo project and for running the unit tests</span>
 </pre></div>
@@ -66,7 +66,7 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.sqlite3&#39;</span><span class="p">,</span>
-        <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;datatabletest.db&#39;</span><span class="p">,</span>
+        <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;datadjabletest.db&#39;</span><span class="p">,</span>
         <span class="s">&#39;USER&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
         <span class="s">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
         <span class="s">&#39;HOST&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
@@ -78,21 +78,21 @@
 <p>Add these apps to your INSTALLED_APPS:</p>
 <div class="highlight-python"><div class="highlight"><pre>INSTALLED_APPS = (
     [...]
-    &#39;datatables&#39;,
-    &#39;datatables.dt_testing&#39;,
+    &#39;datadjables&#39;,
+    &#39;datadjables.datadjable_testing&#39;,
 )
 </pre></div>
 </div>
-<p>Include the datatables.dt_testing urls into your urls.py:</p>
+<p>Include the datadjables.datadjable_testing urls into your urls.py:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">include</span>
 
 <span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
-    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^dt_testing/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;datatables.dt_testing.urls&#39;</span><span class="p">)),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;datadjables.datadjable_testing.urls&#39;</span><span class="p">)),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p>Run a <tt class="docutils literal"><span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> to create some pre-filled testing tables, then start your development server with <tt class="docutils literal"><span class="pre">manage.py</span> <span class="pre">runserver</span></tt>.</p>
-<p>Finally go to <a class="reference external" href="http://localhost:8000/dt_testing/">http://localhost:8000/dt_testing/</a> and try the three different datatables in your browser.</p>
+<p>Finally go to <a class="reference external" href="http://localhost:8000/">http://localhost:8000/</a> and try the three different datadjables in your browser.</p>
 </div>
 
 

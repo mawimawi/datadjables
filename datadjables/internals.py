@@ -36,6 +36,8 @@ class MetaDataDjable(type):
             [cls._meta.columns[0].colname, ] or []
         cls.ordering = getattr(m, 'ordering', standard_ordering)
         cls.html_id = getattr(m, 'html_id', 'datadjable')
+        cls.show_tablefooter = getattr(m, 'show_tablefooter', True)
+
 
         cls._meta.fulltext_search_columns = []
 

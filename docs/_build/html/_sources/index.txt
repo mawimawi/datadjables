@@ -7,7 +7,7 @@ Based on a queryset you define columns which may or may not be sortable and filt
 and display the results filling a configurable amount of a browsers viewport.
 The result is a very responsive window to your database.
 
-DataDjables have^H^H^H^H had 100% test coverage (will impove again soon!) and tries to blend into the way Django itself is built.
+DataDjables have almost 100% test coverage and tries to blend into the way Django itself is built.
 
 .. toctree::
    :maxdepth: 2

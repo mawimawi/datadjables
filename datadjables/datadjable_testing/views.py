@@ -56,6 +56,7 @@ class DPersonsFilterTop(ModelDataDjable):
     class Meta:
         html_id = "personsfiltertoptable"
         fulltext_search_columns = ['last_name','first_name']
+        show_tablefooter = True
 
 class DSimplePersons(ModelDataDjable):
     template_name = 'datadjable_testing/person_list.html'
