@@ -47,23 +47,34 @@
             
   <div class="section" id="customizing-columns">
 <h1>Customizing Columns<a class="headerlink" href="#customizing-columns" title="Permalink to this headline">¶</a></h1>
-<p>THIS SECTION IS OUTDATED</p>
-<p>There are three types of columns (derived from the jQuery plugin): StringColumn, DateColumn and DecimalColumn. Right now they don&#8217;t really differ from each other, but maybe in a next version.</p>
+<p>There are a couple of types of columns (derived from the jQuery plugin):
+StringColumn, DateColumn and DecimalColumn. Furthermore we have the following special columns, thanks to the Datatables-Column Plugin: NumberRangeColumn, DateRangeColumn and ChoiceColumn.</p>
 <p>When initializing a Column object, you can specify these parameters:</p>
-<div class="highlight-python"><div class="highlight"><pre>myCol = StringColumn(coltitle=u&#39;&#39;, coltitle_plural=None, searchable=False,
-              sortable=True, renderer=None,
-              lookup_fields=(), lookup_op=&#39;icontains&#39;):
+<div class="highlight-python"><div class="highlight"><pre>myCol = StringColumn(self, colname=None, coltitle=u&#39;&#39;,
+               searchable=False, sortable=True,
+               renderer=None, lookup_fields=(), lookup_op=&#39;icontains&#39;,
+               colwidth=&#39;&#39;, selector=None, tag_selector=None):
 </pre></div>
 </div>
 <ul class="simple">
+<li>colname: The internal name of the column according to model&#8217;s fieldname. Usually you might not want to set this parameter, but instead name the property <cite>myCol</cite> itself to match the model&#8217;s fieldname.</li>
 <li>coltitle: The title in the column header</li>
-<li>coltitle_plural: used for searchable columns to display &#8220;Search in XXX&#8221; inside the input widget.</li>
 <li>searchable: if True, then the input widget in the footer will be displayed to make this column searchable.</li>
-<li>sortable: if True, then the column can be sorted in ascending and descending order.</li>
-<li>lookup_fields: if not empty, then the fields in the queryset will be searched with the specified lookup_op operator.
-Useful if you have a &#8220;fullname&#8221; column for looking up the search string in firstname and lastname fields.</li>
+<li>sortable: if True, then the column can be sorted in ascending and descending order by clicking on the little arrows in the column&#8217;s header.</li>
+<li>renderer: when set to <cite>None</cite>, the value of the model&#8217;s field will be used as-is. Otherwise you can specify a Django template string which will be rendered.</li>
+<li>lookup_fields: if not empty, then the specified model fields will be searched with the specified lookup_op operator. A good example might be to use a column <cite>fullname</cite> which looks up the database fields <cite>first_name</cite> and <cite>last_name</cite>.</li>
 <li>lookup_op: operator to do lookups. Can be e.g. <tt class="docutils literal"><span class="pre">lte</span></tt>, <tt class="docutils literal"><span class="pre">startswith</span></tt> etc. See the field lookups in Djangos QuerySet reference.</li>
+<li>colwidth: A CSS value for specifying the width of the column. e.g. <cite>90px</cite> or <cite>10em</cite>.</li>
+<li>selector: useful for a computed field like the number of comments for an article. In this case <cite>selector</cite> might be something like <tt class="docutils literal"><span class="pre">(SELECT</span> <span class="pre">COUNT(*)</span> <span class="pre">from</span> <span class="pre">article_comments</span> <span class="pre">ac</span> <span class="pre">WHERE</span> <span class="pre">articles_article.id</span> <span class="pre">=</span> <span class="pre">ac.article_id)</span></tt></li>
+<li>tag_selector: If you want to position the column&#8217;s filter not in the table&#8217;s footer, but somewhere else, this can be the html-id of the tag where the input field should be placed. Example: <cite>#filter_mycol</cite>.</li>
 </ul>
+<div class="section" id="columns-with-choices">
+<h2>Columns with choices<a class="headerlink" href="#columns-with-choices" title="Permalink to this headline">¶</a></h2>
+<p>A <tt class="docutils literal"><span class="pre">ChoiceColumn</span></tt> has an additional parameter when instantiating:</p>
+<ul class="simple">
+<li>choices: per default an empty tuple, but it should be popuplated with some iterable consisting of tuples. E.g. <tt class="docutils literal"><span class="pre">[('g',</span> <span class="pre">'Girl'),</span> <span class="pre">('b',</span> <span class="pre">'Boy')]</span></tt>. Of course this can also be something like <tt class="docutils literal"><span class="pre">SomeModel.objects.all().values_list('id',</span> <span class="pre">'name')</span></tt>.</li>
+</ul>
+</div>
 </div>
 
 
@@ -72,6 +83,14 @@ Useful if you have a &#8220;fullname&#8221; column for looking up the search str
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Customizing Columns</a><ul>
+<li><a class="reference internal" href="#columns-with-choices">Columns with choices</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="custom_datatable.html"
                         title="previous chapter">Creating and Customizing a DataDjable</a></p>

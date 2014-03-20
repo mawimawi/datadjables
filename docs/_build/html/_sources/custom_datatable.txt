@@ -1,11 +1,9 @@
 Creating and Customizing a DataDjable
 =====================================
 
-THIS SECITON IS OUTDATED! 
-
 Creating a DataDjable is very similar to creating a Django form or a Django model::
 
-  from datadjables import DataDjable
+  from datadjables import DataDjable, StringColumn, DateColumn
 
   class MyDataTable(DataTable):
       myfirstcolumn = StringColumn(...)
@@ -14,6 +12,7 @@ Creating a DataDjable is very similar to creating a Django form or a Django mode
       class Meta:
           html_id = 'mydatatable'
           fulltext_search_columns = ('myfirstcolumn',)
+          columns = ('myfirstcolumn',)
 
 The ``Meta`` class can contain these attributes:
 
@@ -21,6 +20,6 @@ The ``Meta`` class can contain these attributes:
 
 * fulltext_search_columns (optional): A tuple indicating all columns that shall be searched when a user enters text into the search field on the top right of the jQuery DataTable. If empty or not given, then all columns will be searched.
 
-* columns (optional): If you would like to only display some fields, or in a different order than defined, use this tuple with all column names that should be displayed, in this order.
+* columns (optional, default is to display all defined columns): If you would like to only display some columns, or in a different order than defined, use this tuple with all column names that should be displayed, in this order.
 
 * ordering: A tuple in the form ``('-mylastcolumn', 'myfirstcolumn')``. This is the same syntax as for Django models, and is being used as ordering when initially showing the DataTable in the browser.

@@ -169,7 +169,7 @@ class ChoiceColumn(BaseDTColumn):
         self.choices = choices
 
     def js_columnfilter_init(self):
-        result = super(DateRangeColumn, self).js_columnfilter_init()
+        result = super(ChoiceColumn, self).js_columnfilter_init()
         values = list(self.choices)
         result['values'] = values
         return result
