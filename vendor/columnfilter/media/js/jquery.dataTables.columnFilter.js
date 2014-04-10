@@ -334,8 +334,6 @@
             if (aData == null)
                 aData = _fnGetColumnValues(oTable.fnSettings(), iColumn, true, false, true);
             var index = iColumn;
-            var optionvalue = "";
-            var optioncontent = "";
             var currentFilter = oTable.fnSettings().aoPreSearchCols[i].sSearch;
             if (currentFilter == null || currentFilter == "")//Issue 81
                 currentFilter = oSelected;
@@ -347,31 +345,23 @@
             var j = 0;
             var iLen = aData.length;
             for (j = 0; j < iLen; j++) {
-            	if (Object.prototype.toString.call(aData[j]) !== "[object Array]") {
-            		optionvalue = aData[j];
-            		optioncontent = aData[j];
-				}
-				else {
-            		optionvalue = aData[j][0];
-            		optioncontent = aData[j][1];
-				}
-                if (typeof (optionvalue) != 'object') {
+                if (typeof (aData[j]) != 'object') {
                     var selected = '';
-                    if (escape(optionvalue) == currentFilter
-                        || escape(optionvalue) == escape(currentFilter)
+                    if (escape(aData[j]) == currentFilter
+                        || escape(aData[j]) == escape(currentFilter)
                         )
                         selected = 'selected '
-                    r += '<option ' + selected + ' value="' + escape(optionvalue) + '">' + optioncontent + '</option>';
+                    r += '<option ' + selected + ' value="' + escape(aData[j]) + '">' + aData[j] + '</option>';
                 }
                 else {
                     var selected = '';
                     if (bRegex) {
                         //Do not escape values if they are explicitely set to avoid escaping special characters in the regexp
-                        if (optionvalue.value == currentFilter) selected = 'selected ';
-                        r += '<option ' + selected + 'value="' + optionvalue.value + '">' + optioncontent.label + '</option>';
+                        if (aData[j].value == currentFilter) selected = 'selected ';
+                        r += '<option ' + selected + 'value="' + aData[j].value + '">' + aData[j].label + '</option>';
                     } else {
-                        if (escape(optionvalue.value) == currentFilter) selected = 'selected ';
-                        r += '<option ' + selected + 'value="' + escape(optionvalue.value) + '">' + optioncontent.label + '</option>';
+                        if (escape(aData[j].value) == currentFilter) selected = 'selected ';
+                        r += '<option ' + selected + 'value="' + escape(aData[j].value) + '">' + aData[j].label + '</option>';
                     }
                 }
             }
@@ -401,22 +391,22 @@
 					oTable.fnFilter( re, index, true, false );
 				});
 			} else {
-            select.change(function () {
-                //var val = $(this).val();
-                if ($(this).val() != "") {
-                    $(this).removeClass("search_init");
-                } else {
-                    $(this).addClass("search_init");
-                }
-                if (bRegex)
-                    oTable.fnFilter($(this).val(), iColumn, bRegex); //Issue 41
-                else
-                    oTable.fnFilter(unescape($(this).val()), iColumn); //Issue 25
-                fnOnFiltered();
-            });
-            if (currentFilter != null && currentFilter != "")//Issue 81
-                oTable.fnFilter(unescape(currentFilter), iColumn);
-        }
+				select.change(function () {
+					//var val = $(this).val();
+					if ($(this).val() != "") {
+						$(this).removeClass("search_init");
+					} else {
+						$(this).addClass("search_init");
+					}
+					if (bRegex)
+						oTable.fnFilter($(this).val(), iColumn, bRegex); //Issue 41
+					else
+						oTable.fnFilter(unescape($(this).val()), iColumn); //Issue 25
+					fnOnFiltered();
+				});
+				if (currentFilter != null && currentFilter != "")//Issue 81
+					oTable.fnFilter(unescape(currentFilter), iColumn);
+			}
         }
 
         function fnCreateSelect(oTable, aData, bRegex, oSelected, bMultiselect) {

@@ -170,6 +170,5 @@ class ChoiceColumn(BaseDTColumn):
 
     def js_columnfilter_init(self):
         result = super(ChoiceColumn, self).js_columnfilter_init()
-        values = list(self.choices)
-        result['values'] = values
+        result['values'] = list(self.choices)
         return result
