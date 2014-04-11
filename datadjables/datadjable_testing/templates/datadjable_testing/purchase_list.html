@@ -1,15 +1,17 @@
-{% load datatables %}<html>
+{% load datadjables %}<html>
     <head>
-        <script type="text/javascript" src="/static/datatables/js/jquery.js"></script>
-        <script type="text/javascript" src="/static/datatables/js/jquery.dataTables.js"></script>
-        <script type="text/javascript" src="/static/datatables/js/django_datatables.js"></script>
-      	<link rel="stylesheet" href="/static/datatables/css/jquery.dataTables.css">
+        <script type="text/javascript" src="/static/datadjables/js/jquery.js"></script>
+        <script type="text/javascript" src="/static/datadjables/js/jquery-ui-1.10.3.custom.min.js"></script>
+        <script type="text/javascript" src="/static/datadjables/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="/static/datadjables/js/jquery.dataTables.columnFilter.js"></script>
+        <script type="text/javascript" src="/static/datadjables/js/dataTables.scroller.js"></script>
+        <script type="text/javascript" src="/static/datadjables/js/datadjables.js"></script>
+        <link rel="stylesheet" href="/static/datadjables/css/jquery.dataTables.css">
+        <link rel="stylesheet" href="/static/datadjables/css/ui-lightness/jquery-ui-1.10.3.custom.css" >
+        <link rel="stylesheet" href="/static/datadjables/css/datadjables.css">
     </head>
     <body>
         <h1>Purchases</h1>
-        <hr>
-        xxx
-        <hr>
         {% table_init dtobj %}
     </body>
 </html>

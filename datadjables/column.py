@@ -66,8 +66,7 @@ class BaseDTColumn(object):
 
     def filter(self, strg, queryset=None):
         if self.selector:
-            return queryset.extra(where=[self.selector + '=%s'],
-                    params=[strg])
+            return queryset.extra(where=[self.selector + '=%s'], params=[strg])
         kwargs = dict([
             ('%s%s' % (lookup_field, self.lookup_op), strg)
             for lookup_field in self.lookup_fields or [self.colname, ]
@@ -78,7 +77,7 @@ class BaseDTColumn(object):
         result = {}
         if self.searchable:
             result['type'] = self.coltype
-            if self.tag_selector:  # css selector for filter outside table footer
+            if self.tag_selector:  # css selector for filter somewhere on page
                 result['sSelector'] = self.tag_selector
         return result or None
 
@@ -99,11 +98,11 @@ class NumberRangeColumn(BaseDTColumn):
 
         if self.selector:
             if parts[0]:
-                queryset = queryset.extra(where=[self.selector + '>= %s'],
-                        params=[parts[0]])
+                queryset = queryset.extra(
+                    where=[self.selector + '>= %s'], params=[parts[0]])
             if parts[1]:
-                queryset = queryset.extra(where=[self.selector + '<= %s'],
-                        params=[parts[1]])
+                queryset = queryset.extra(
+                    where=[self.selector + '<= %s'], params=[parts[1]])
             return queryset
         else:
             if parts[0]:
@@ -117,7 +116,6 @@ class NumberRangeColumn(BaseDTColumn):
                     for lookup_field in self.lookup_fields or [self.colname, ]
                 ]))
             return queryset.filter(Q(**kwargs))
-
 
 
 class StringColumn(BaseDTColumn):
@@ -160,6 +158,7 @@ class DateRangeColumn(BaseDTColumn):
                 for lookup_field in self.lookup_fields or [self.colname, ]
             ]))
         return queryset.filter(Q(**kwargs))
+
 
 class ChoiceColumn(BaseDTColumn):
     coltype = 'select'

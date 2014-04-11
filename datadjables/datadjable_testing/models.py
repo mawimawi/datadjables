@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from django.db import models
 from datetime import date
 
@@ -19,7 +21,15 @@ class Product(models.Model):
     standard_price = models.DecimalField(max_digits=9, decimal_places=2)
 
     def __unicode__(self):
-        return self.name
+        return u"{0}, Version {1}".format(self.name, self.pk)
+
+    @property
+    def short_name(self, name_length=15):
+        if len(self.name) > 15:
+            name = self.name[:14] + u'…'
+        else:
+            name = self.name
+        return u"{0}, Version {1}".format(name, self.pk)
 
 
 class Purchase(models.Model):
@@ -27,7 +37,3 @@ class Purchase(models.Model):
     product = models.ForeignKey("Product")
     price = models.DecimalField(max_digits=9, decimal_places=2)
     purchase_timestamp = models.DateTimeField()
-
-#    @property
-#    def discount_pct(self):
-#        return (1 - (self.price / self.product.standard_price)) * 100

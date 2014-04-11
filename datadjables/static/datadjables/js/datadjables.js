@@ -10,6 +10,7 @@ var adjust_to_screen = function() {
         var oSettings = oTable.fnSettings();
         oSettings.oScroll.sY = calcDataTableHeight(oTable);
         oTable.fnDraw();
+        oTable.fnAdjustColumnSizing();
     });
 };
 
@@ -30,30 +31,31 @@ function init_datatable(dt, dt_aoColumns, dt_aaSorting,
 
     dt.adjust_bottom_px = adjust_bottom_px;
     var oTable = $('#' + dt.data("id")).dataTable({
-//      'sPaginationType': 'full_numbers',
-    'iDisplayLength': 50,
-    "bServerSide": true,
-//    "bScrollInfinite": true,
-//    "bScrollCollapse": true,
-    "sScrollY": calcDataTableHeight(dt),
-    "sAjaxSource": "",
-    "sDom": "tSi",
-    "oScroller": {
-      "loadingIndicator": false
-    },
-//    "bDeferRender": true,
-//    "aoColumns": dt_aoColumns,
-//    'aaSorting': dt_aaSorting,
-    "oLanguage": {
-      "sProcessing":   "Bitte warten...",
-      "sLengthMenu":   "_MENU_ Einträge anzeigen",
-      "sZeroRecords":  "Keine Einträge vorhanden.",
-      "sInfo":         "_START_ bis _END_ von _TOTAL_ Einträgen",
-      "sInfoEmpty":    "0 bis 0 von 0 Einträgen",
-      "sInfoFiltered": "(gefiltert von _MAX_  Einträgen)",
-      "sSearch":       "Suchen"
-    }
-  }).columnFilter({aoColumns: dt_columnfilter});
+    //      'sPaginationType': 'full_numbers',
+        'iDisplayLength': 50,
+        "bServerSide": true,
+    //    "bScrollInfinite": true,
+    //    "bScrollCollapse": true,
+        "sScrollY": calcDataTableHeight(dt),
+        "sAjaxSource": "",
+        "sDom": "tSi",
+        "oScroller": {
+        "loadingIndicator": false
+        },
+    //    "bDeferRender": true,
+    //    "aoColumns": dt_aoColumns,
+    //    'aaSorting': dt_aaSorting,
+        "oLanguage": {
+        "sProcessing":   "Bitte warten...",
+        "sLengthMenu":   "_MENU_ Einträge anzeigen",
+        "sZeroRecords":  "Keine Einträge vorhanden.",
+        "sInfo":         "_START_ bis _END_ von _TOTAL_ Einträgen",
+        "sInfoEmpty":    "0 bis 0 von 0 Einträgen",
+        "sInfoFiltered": "(gefiltert von _MAX_  Einträgen)",
+        "sSearch":       "Suchen"
+        }
+    }).columnFilter({aoColumns: dt_columnfilter});
+    oTable.fnAdjustColumnSizing();
     dt.addClass('initialized');
 }
 

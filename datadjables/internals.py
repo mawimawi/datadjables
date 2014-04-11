@@ -1,6 +1,7 @@
 import operator
 from .column import BaseDTColumn
 
+
 class _DTMeta(object):
     pass
 
@@ -39,7 +40,6 @@ class MetaDataDjable(type):
         cls.show_tablefooter = getattr(m, 'show_tablefooter', True)
         cls.adjust_bottom_px = getattr(m, 'adjust_bottom_px', 105)
 
-
         cls._meta.fulltext_search_columns = []
 
         # get the columns to search for. if not given, use all columns
@@ -51,4 +51,3 @@ class MetaDataDjable(type):
         for f in search_columnnames:
             cls._meta.fulltext_search_columns.append(
                 [x for x in all_columns if x.colname == f][0])
-

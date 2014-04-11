@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 
 from .internals import MetaDataDjable
 
+
 class DataDjable(TemplateView):
     __metaclass__ = MetaDataDjable
 
@@ -41,10 +42,11 @@ class DataDjable(TemplateView):
     def js_data_columns(self):
         """Creates the javascript list of objects for initialization of
         the jQuery-DataTable"""
-        return mark_safe('[' +
-                         ','.join([obj.js_data_column() \
-                             for obj in self._meta.columns]) +
-                         ']')
+        return mark_safe(
+            '[' +
+            ','.join([obj.js_data_column()
+                     for obj in self._meta.columns]) +
+            ']')
 
     def result_data(self, queryset):
         """Returns a list of rows to be shown in the jQuery-DataTable tbody"""
@@ -52,7 +54,8 @@ class DataDjable(TemplateView):
 
     def get_row(self, queryset_row):
         """Returns one row to be shown in the jQuery-DataTable tbody"""
-        return [x.dt_cell_content(queryset_row, view=self) for x in self._meta.columns]
+        return [x.dt_cell_content(queryset_row, view=self)
+                for x in self._meta.columns]
 
     def js_columnfilter_init(self):
         """Returns the initialization JavaScript list for the
@@ -121,8 +124,9 @@ class DataDjable(TemplateView):
         echo = request.GET.get('sEcho', '0')  # needed by datatables.js
 
         # return max. 'self.max_rows_per_batch' rows
-        length = min(int(request.GET.get('iDisplayLength', 50)),
-                self.max_rows_per_batch)
+        length = min(
+            int(request.GET.get('iDisplayLength', 50)),
+            self.max_rows_per_batch)
 
         start = int(request.GET.get('iDisplayStart', 0))
         end = start + length
@@ -130,14 +134,14 @@ class DataDjable(TemplateView):
         # add additional columns which are not part of the ordinary model
         for column in self._meta.columns:
             if column.selector:
-                queryset = queryset.extra(select={column.colname:column.selector})
+                queryset = queryset.extra(
+                    select={column.colname: column.selector})
 
         # filter by all fulltext_search_columns
         queryset = self.filter_fulltext(queryset, request)
 
         # filter by individual columns
         queryset = self.filter_by_columns(queryset, request)
-
 
         # do the sorting
         queryset = self.order_queryset(queryset, request)
@@ -147,7 +151,6 @@ class DataDjable(TemplateView):
 
         # slice it
         queryset = queryset[start:end]
-
 
         # return the finished queryset
         jsonString = dumps({'sEcho': echo,
@@ -159,6 +162,7 @@ class DataDjable(TemplateView):
 
         add_never_cache_headers(response)
         return response
+
 
 class ModelDataDjable(DataDjable):
     model = None
