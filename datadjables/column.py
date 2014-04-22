@@ -27,7 +27,8 @@ class BaseDTColumn(object):
     def __init__(self, colname=None, coltitle=u'',
                  searchable=False, sortable=True,
                  renderer=None, lookup_fields=(), lookup_op='icontains',
-                 colwidth="", selector=None, tag_selector=None):
+                 colwidth="", selector=None, tag_selector=None,
+                 filter_label=None):
         self.colname = colname
         self.coltitle = coltitle
         self.searchable = searchable
@@ -39,6 +40,7 @@ class BaseDTColumn(object):
         self.lookup_op = lookup_op and '__%s' % lookup_op or ''
         self.selector = selector or None
         self.tag_selector = tag_selector or None
+        self.filter_label = filter_label or coltitle
 
     def _set_colname(self, colname):
         """Set the column name and - if necessary - renderer. This method
@@ -54,6 +56,7 @@ class BaseDTColumn(object):
             _jsbool(self.searchable),
             _jsbool(self.sortable),
             self.coltype,))
+        result.append('"sLabel": "%s"' % self.filter_label)
         return '{' + ', '.join(result) + '}'
 
     def dt_cell_content(self, obj, view=None):
@@ -170,4 +173,5 @@ class ChoiceColumn(BaseDTColumn):
     def js_columnfilter_init(self):
         result = super(ChoiceColumn, self).js_columnfilter_init()
         result['values'] = list(self.choices)
+        result['sLabel'] = 'Alle!'
         return result

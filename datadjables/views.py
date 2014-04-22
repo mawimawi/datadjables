@@ -20,6 +20,11 @@ class DataDjable(TemplateView):
         return mark_safe('<th>' + '</th><th>'.join(
             [obj.coltitle for obj in self._meta.columns]) + '</th>')
 
+    def tfoot(self):
+        """Renders the table footer as HTML with filter_labels"""
+        return mark_safe('<th>' + '</th><th>'.join(
+            [obj.filter_label for obj in self._meta.columns]) + '</th>')
+
     def js_initial_ordering(self):
         """Returns the initial ordering of the DataDjable in a format
         that jQuery-DataTables understands."""

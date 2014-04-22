@@ -88,6 +88,7 @@ class DPurchases(DataDjable):
 
     buyer__last_name = StringColumn(
         coltitle=_('Buyer'),
+        filter_label=_('Filter first/last name'),
         colwidth="30em",
         lookup_fields=('buyer__first_name',
                        'buyer__last_name'),
@@ -95,12 +96,14 @@ class DPurchases(DataDjable):
         renderer=u"{obj.buyer.last_name}")
     product__pk = ChoiceColumn(
         coltitle=_('Product'),
+        filter_label=_('All products'),
         colwidth="*",
         choices=(),  # will be filled in render_to_response
         searchable=True, sortable=True,
         renderer=u"{obj.product.name}, {obj.product.pk}")
     purchase_year = ChoiceColumn(
         coltitle=_('Purchase year',),
+        filter_label=_('All years'),
         colwidth="20em",
         selector="date_part('year', purchase_timestamp)::integer",
         choices=(),  # will be filled in render_to_response
