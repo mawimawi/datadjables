@@ -1,6 +1,6 @@
 var resizetimer = null;
 var calcDataTableHeight = function(dt) {
-  console.log("px = " + dt.adjust_bottom_px);
+  // console.log("px = " + dt.adjust_bottom_px);
   return window.innerHeight - $('.django-datadjable').offset().top - dt.adjust_bottom_px;
 };
 

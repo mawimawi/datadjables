@@ -143,6 +143,7 @@ class DateRangeColumn(BaseDTColumn):
     def js_columnfilter_init(self):
         result = super(DateRangeColumn, self).js_columnfilter_init()
         result['sRangeFormat'] = _('From {from} to {to}')
+        result['year_range'] = '{0}:{1}'.format(*self.year_range)
         return result
 
     def filter(self, strg, queryset=None):

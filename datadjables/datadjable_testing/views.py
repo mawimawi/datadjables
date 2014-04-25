@@ -1,3 +1,4 @@
+import datetime
 from django.utils.translation import ugettext as _
 
 from datadjables.datadjable_testing.models import Person, Purchase, Product
@@ -33,6 +34,15 @@ class DPersons(ModelDataDjable):
         show_tablefooter = True
         fulltext_search_columns = ['last_name', 'first_name']
         adjust_bottom_px = 90
+
+    def render_to_response(self, *args, **kwargs):
+        # generate the range for the datetime jqueryui popup
+        # (can't be made in the colum definitions above, since "now" would
+        # be evaluated in advance...
+
+        this_year = datetime.date.today().year
+        self._meta.columns[2].year_range = [this_year - 128, this_year]
+        return super(DPersons, self).render_to_response(*args, **kwargs)
 
 
 class DPersonsFilterTop(ModelDataDjable):

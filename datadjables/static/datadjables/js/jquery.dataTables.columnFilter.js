@@ -23,7 +23,7 @@
 
   $.fn.columnFilter = function (options) {
 
-    var asInitVals, i, label, th;
+    var asInitVals, i, label, th, year_range;
 
     //var sTableId = "table";
     var sRangeFormat = "From {from} to {to}";
@@ -250,7 +250,7 @@
         //th.html(_fnRangeLabelPart(0));
         var sFromId = oTable.attr("id") + '_range_from_' + i;
         var from = $('<input type="text" class="date_range_filter form-control" id="' + sFromId + '" rel="' + i + '"/>');
-        from.datepicker();
+        from.datepicker({yearRange: year_range});
         //th.append(from);
         //th.append(_fnRangeLabelPart(1));
         var sToId = oTable.attr("id") + '_range_to_' + i;
@@ -273,9 +273,8 @@
 
         }
 
-
         th.wrapInner('<span class="filter_column filter_date_range" />');
-        to.datepicker();
+        to.datepicker({yearRange: year_range});
         var index = i;
         aiCustomSearch_Indexes.push(i);
 
@@ -725,16 +724,11 @@
     //$(sFilterRow + " th", oHost).each(function (index) {//bug with ColVis
     $(aoFilterCells).each(function (index) {//fix for ColVis
       i = index;
-      var aoColumn = { type: "text",
-        bRegex: false,
-    bSmart: true,
-    iMaxLenght: -1,
-    iFilterLength: 0
-      };
+      var aoColumn = { type: "text", bRegex: false, bSmart: true, iMaxLenght: -1,
+        iFilterLength: 0, year_range:[] };
       if (properties.aoColumns != null) {
-        if (properties.aoColumns.length < i || properties.aoColumns[i] == null)
-      return;
-    aoColumn = properties.aoColumns[i];
+        if (properties.aoColumns.length < i || properties.aoColumns[i] == null) return;
+        aoColumn = properties.aoColumns[i];
       }
       //label = $(this).text(); //Before fix for ColVis
       label = $($(this)[0].cell).text(); //Fix for ColVis
@@ -768,6 +762,9 @@
             fnCreateRangeInput(oTable);
             break;
           case "date-range":
+            // MAWI
+            year_range = aoColumn.year_range;
+            // /MAWI
             fnCreateDateRangeInput(oTable);
             break;
           case "checkbox":
