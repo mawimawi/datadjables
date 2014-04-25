@@ -2,7 +2,7 @@
 #from distutils.core import setup
 from setuptools import setup, find_packages
 
-version = '1.0.40'
+version = '1.0.41'
 
 setup(
     name='datadjables',
