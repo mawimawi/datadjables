@@ -725,7 +725,7 @@
     $(aoFilterCells).each(function (index) {//fix for ColVis
       i = index;
       var aoColumn = { type: "text", bRegex: false, bSmart: true, iMaxLenght: -1,
-        iFilterLength: 0, year_range:[] };
+        iFilterLength: 0, year_range:"" };
       if (properties.aoColumns != null) {
         if (properties.aoColumns.length < i || properties.aoColumns[i] == null) return;
         aoColumn = properties.aoColumns[i];
@@ -762,9 +762,7 @@
             fnCreateRangeInput(oTable);
             break;
           case "date-range":
-            // MAWI
             year_range = aoColumn.year_range;
-            // /MAWI
             fnCreateDateRangeInput(oTable);
             break;
           case "checkbox":
