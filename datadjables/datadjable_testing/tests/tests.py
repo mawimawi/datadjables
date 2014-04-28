@@ -5,7 +5,6 @@ from django.test import TestCase
 from django.utils.translation import ugettext as _
 from datadjables.datadjable_testing.views import DPersons
 from datadjables import DataDjable
-from datadjables.datadjable_testing.models import Person
 
 
 class HtmlTest(TestCase):
@@ -19,7 +18,7 @@ class HtmlTest(TestCase):
     def test_missing_base_query(self):
         class DT(DataDjable):
             pass
-        self.assertRaises(NotImplementedError, DT().base_query )
+        self.assertRaises(NotImplementedError, DT().base_query)
 
     def test_colnames(self):
         self.assertEqual(
@@ -34,15 +33,19 @@ class HtmlTest(TestCase):
                          '[[2, "desc"], [1, "asc"], [0, "asc"]]')
 
     def test_js_data_columns(self):
-        self.assertEqual(self.persons.js_data_columns(), u'[{"bSearchable": true, "bSortable": true, "sType": "string"},{"bSearchable": false, "bSortable": true, "sType": "string"},{"bSearchable": true, "bSortable": true, "sType": "date-range"},{"bSearchable": false, "bSortable": false, "sType": "numeric"},{"bSearchable": true, "bSortable": true, "sType": "number-range"}]')
+        self.assertEqual(
+            self.persons.js_data_columns(),
+            u'[{"bSearchable": true, "bSortable": true, "sType": "string", "sLabel": "Name"},{"bSearchable": false, "bSortable": true, "sType": "string", "sLabel": "Vorname"},{"bSearchable": true, "bSortable": true, "sType": "date-range", "sLabel": "Geb.datum"},{"bSearchable": false, "bSortable": false, "sType": "numeric", "sLabel": "Alter"},{"bSearchable": true, "bSortable": true, "sType": "number-range", "sLabel": "PLZ"}]')  # NOQA
 
     def test_thead(self):
         response = self.client.get(reverse('datadjable_testing_person_list'))
-        strippedresponse = ''.join([x.strip() for x in response.content.decode('utf8').splitlines()])
+        strippedresponse = ''.join(
+            [x.strip() for x in response.content.decode('utf8').splitlines()])
 
-        self.assertIn(u'<thead><tr><th>{0}</th><th>{1}</th><th>{2}</th><th>{3}</th><th>{4}</th></tr></thead>'.format(
-            _('Name'), _('First name'), _('Date of birth'), _('Age'), _('Zip code')
-            ), strippedresponse)
+        self.assertIn(
+            u'<thead><tr><th>{0}</th><th>{1}</th><th>{2}</th><th>{3}</th><th>{4}</th></tr></thead>'.format(  # NOQA
+            _('Name'), _('First name'), _('Date of birth'),
+            _('Age'), _('Zip code')), strippedresponse)
 
     def test_get_first_two_records(self):
         resp = self.get_json(reverse('datadjable_testing_person_list'),
@@ -53,9 +56,11 @@ class HtmlTest(TestCase):
         self.assertEqual(resp['sEcho'], '33')
 
     def test_sort_by_lastname_then_firstname(self):
-        resp = self.get_json(reverse('datadjable_testing_person_list'),
-                {'sEcho':'x', 'iDisplayLength': 7, 'iSortCol_0': 0,
-                    'iSortCol_1': 1, 'iDisplayStart': 5, 'sSortDir_0': 'asc', 'sSortDir_1': 'desc', })
+        resp = self.get_json(
+            reverse('datadjable_testing_person_list'),
+            {'sEcho': 'x', 'iDisplayLength': 7, 'iSortCol_0': 0,
+             'iSortCol_1': 1, 'iDisplayStart': 5, 'sSortDir_0': 'asc',
+             'sSortDir_1': 'desc', })
         self.assertEqual(resp['sEcho'], 'x')
 
         # we expect these records to receive:
@@ -71,13 +76,12 @@ class HtmlTest(TestCase):
         self.assertListEqual(respzipcodes, zipcodes)
 
     def test_filter(self):
-        resp = self.get_json(reverse('datadjable_testing_person_list'),
-                {'sEcho':'0', 'iDisplayLength': 10,
-                    'iSortCol_0': 1,  # order by first_name
-                    'cSortDir_0': 'asc', 'sSearch_1': '',
-                    'sSearch_0': 'Arbegans', 'sSearch_2': '',
-                    }
-                )
+        resp = self.get_json(
+            reverse('datadjable_testing_person_list'),
+            {'sEcho': '0', 'iDisplayLength': 10,
+             'iSortCol_0': 1,  # order by first_name
+             'cSortDir_0': 'asc', 'sSearch_1': '',
+             'sSearch_0': 'Arbegans', 'sSearch_2': '', })
         # we expect these records to receive:
         # Aloysius|Arbegans|172
         # Auður-Borasha|Arbegans|857
@@ -87,7 +91,7 @@ class HtmlTest(TestCase):
         self.assertListEqual(respzipcodes, zipcodes)
 
         resp = self.get_json(reverse('datadjable_testing_person_list'),
-                             {'sEcho':'0', 'iDisplayLength': 10,
+                             {'sEcho': '0', 'iDisplayLength': 10,
                               'iSortCol_0': '0',  # order by first_name
                               'iSortingCols': '1',
                               'sSortDir_0': 'asc',
@@ -99,10 +103,9 @@ class HtmlTest(TestCase):
         # Barth Karine
         self.assertEqual(u'Karine', resp['aaData'][0][1])
 
-
     def test_full_search(self):
         resp = self.get_json(reverse('datadjable_testing_person_list'),
-                             {'iDisplayLength': 10, 'sEcho':'0',
+                             {'iDisplayLength': 10, 'sEcho': '0',
                               'iSortCol_0': 1,  # order by first_name
                               'cSortDir_0': 'asc',
                               'sSearch': 'osto',
@@ -118,27 +121,24 @@ class HtmlTest(TestCase):
         self.assertListEqual(respzipcodes, zipcodes)
 
     def test_date_range(self):
-        resp = self.get_json(reverse('datadjable_testing_personfiltertop_list'),
-                {'sSearch_0': 'b',
-                 'sSearch_2': '1990-06-01~1990-08-04',
-                 'sEcho':'0',
-                 'iDisplayLength': 10,
-                 })
+        resp = self.get_json(
+            reverse('datadjable_testing_personfiltertop_list'),
+            {'sSearch_0': 'b',
+             'sSearch_2': '1990-06-01~1990-08-04',
+             'sEcho': '0', 'iDisplayLength': 10, })
         self.assertEqual(u'Biwer', resp['aaData'][0][0])
         assert resp[u'iTotalRecords'] == 1
 
     def test_date_invalid_date_range(self):
-        resp = self.get_json(reverse('datadjable_testing_personfiltertop_list'),
-                {'sSearch_2': '1990-06-01',
-                 'sEcho':'0',
-                 })
+        resp = self.get_json(
+            reverse('datadjable_testing_personfiltertop_list'),
+            {'sSearch_2': '1990-06-01', 'sEcho': '0', })
         assert resp[u'iTotalRecords'] == 500
 
     def test_date_invalid_number_range(self):
-        resp = self.get_json(reverse('datadjable_testing_personfiltertop_list'),
-                {'sSearch_3': '1',
-                 'sEcho':'0',
-                 })
+        resp = self.get_json(
+            reverse('datadjable_testing_personfiltertop_list'),
+            {'sSearch_3': '1', 'sEcho': '0', })
         assert resp[u'iTotalRecords'] == 500
 
     def test_colwidth(self):
@@ -146,4 +146,3 @@ class HtmlTest(TestCase):
         dtobj = resp.context.get('dtobj')
         sWidth = json.loads(dtobj.js_data_columns())[0]['sWidth']
         assert sWidth == '90%'
-

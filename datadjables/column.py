@@ -139,6 +139,7 @@ class DateColumn(BaseDTColumn):
 
 class DateRangeColumn(BaseDTColumn):
     coltype = 'date-range'
+    year_range = (2000, 2030)
 
     def js_columnfilter_init(self):
         result = super(DateRangeColumn, self).js_columnfilter_init()
